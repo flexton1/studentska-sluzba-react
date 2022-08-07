@@ -3,7 +3,11 @@ import {Link} from 'react-router-dom';
 import { IStudent } from '../models/IStudent';
 import { StudentService } from '../services/student-service';
 import { DataTable } from 'primereact/datatable';
+import { Dialog } from 'primereact/dialog';
+import {Button} from 'primereact/button';
 import { Column } from 'primereact/column';
+import { InputText } from 'primereact/inputtext';
+import CreateNewStudent from './CreateNewStudent/CreateNewStudent';
 
 interface IState{
     loading: boolean;
@@ -39,13 +43,62 @@ let StudentList:React.FC<IProps> = () => {
             
             
        
-        })
+        });
     },
      [])
 
 
     let {loading, students, errorMessage} = state;
 
+
+    const [displayBasic, setDisplayBasic] = useState(false);
+    const [position, setPosition] = useState('center');
+
+    const dialogFuncMap: any = {
+        'displayBasic': setDisplayBasic,
+    }
+    
+    const onClick = (name: any, position: any) => {
+        dialogFuncMap[`${name}`](true);
+
+        if (position) {
+            setPosition(position);
+        }
+    }
+    const onHide = async (name: any, value: boolean, student: IStudent | undefined) => {
+        
+        dialogFuncMap[`${name}`](false);
+
+        if(student){
+        
+
+
+        await StudentService.createNewStudent(student).then((res) => {
+            if(res.status == 200){
+                
+                StudentService.getAllStudents().then( (response) => {
+                    setState({
+                        ...state,
+                        loading: true,
+                        students: response.data
+                    });
+               
+                }).catch( (error) => {
+                    setState({
+                        ...state,
+                        loading: false,
+                        errorMessage: error.message
+                    })
+                    
+                    
+               
+                });
+
+            }
+        })
+        }
+
+    }
 
     return(
         <React.Fragment>
@@ -54,6 +107,14 @@ let StudentList:React.FC<IProps> = () => {
     <div className="row">
         <div className="col">
             <p className="h3 mt-3 fw-bold text-success">Svi studenti</p>
+            
+            <Button className='mt-1 mb-1' label="Novi student" icon="pi pi-plus" onClick={() => onClick('displayBasic', position)} />
+
+<Dialog header="Novi student" visible={displayBasic} style={{ width: '50vw' }} 
+breakpoints={{'960px': '75vw', '740px': '100vw'}}
+ onHide={() => onHide('displayBasic', false, undefined)}>
+    <CreateNewStudent onHide={onHide} />
+</Dialog>
         </div>
     </div>
 </div>

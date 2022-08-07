@@ -48,7 +48,7 @@ let login = async (event: React.FormEvent<HTMLFormElement>) => {
 
 
    await AuthService.login(state.login.username, state.login.password).then((res) => {
-          if(res.data.message == 'User logged in!'){
+          if(res.status == 200){
             setIsSubmitted(true);
             // let expires = new Date()
             // expires.setTime(expires.getTime() + (res.data.expires_in * 1000))
