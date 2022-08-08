@@ -6,11 +6,11 @@ export class AuthService {
 
 
 
-    public static login(username: string, password: string)
+    public static login(email: string, password: string)
     {
         let dataUrl: string = `${this.serverUrl}/login`;
 
-        return axios.post(dataUrl, {username: username, password: password}, {withCredentials: true})
+        return axios.post(dataUrl, {email: email, password: password}, {withCredentials: true})
 
     }
 

@@ -28,7 +28,7 @@ const ErrorMessage: errorMessage = {name: '', message: ''};
 
   let [state, setState] = useState({
     login: {
-        username: '',
+        email: '',
         password: ''
     }
 })
@@ -50,7 +50,7 @@ let login = async (event: React.FormEvent<HTMLFormElement>) => {
     console.log(state.login);
 
 
-   await AuthService.login(state.login.username, state.login.password).then((res) => {
+   await AuthService.login(state.login.email, state.login.password).then((res) => {
           if(res.status == 200){
             if(toast.current){
               toast.current.show({severity:'success', summary: 'Prijavljeni ste!', detail:'Uspješno ste se prijavili!', life: 3000});
@@ -91,9 +91,9 @@ let login = async (event: React.FormEvent<HTMLFormElement>) => {
     <div className="form">
       <form onSubmit={login}>
         <div className="input-container">
-          <label>Korisničko ime </label>
-          <InputText type="text" name="username" required 
-          value={state.login.username}
+          <label>Email </label>
+          <InputText type="text" name="email" required 
+          value={state.login.email}
           onChange={updateInput}
           />
           {renderErrorMessage({name: 'username', message: errors.username})}
