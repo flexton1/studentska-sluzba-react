@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {Link} from 'react-router-dom';
 import { IStudent } from '../models/IStudent';
 import { StudentService } from '../services/student-service';
-import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
 import {Button} from 'primereact/button';
-import { Column } from 'primereact/column';
-import { InputText } from 'primereact/inputtext';
 import CreateNewStudent from './CreateNewStudent/CreateNewStudent';
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { Toast } from 'primereact/toast';
 
 interface IState{
     loading: boolean;
@@ -17,6 +16,8 @@ interface IState{
 interface IProps{}
 
 let StudentList:React.FC<IProps> = () => {
+    const toast = useRef<Toast>(null);
+
 
     let [state, setState] = useState<IState>({
         loading: false,
@@ -58,7 +59,7 @@ let StudentList:React.FC<IProps> = () => {
         'displayBasic': setDisplayBasic,
     }
     
-    const onClick = (name: any, position: any) => {
+    const onClick1 = (name: any, position: any) => {
         dialogFuncMap[`${name}`](true);
 
         if (position) {
@@ -74,8 +75,10 @@ let StudentList:React.FC<IProps> = () => {
 
 
         await StudentService.createNewStudent(student).then((res) => {
-            if(res.status == 200){
-                
+            if(res.status === 200){
+                if(toast.current){
+                toast.current.show({severity:'success', summary: 'Student kreiran!', detail:'Uspješno ste kreirali studenta.', life: 3000});
+                }
                 StudentService.getAllStudents().then( (response) => {
                     setState({
                         ...state,
@@ -95,20 +98,66 @@ let StudentList:React.FC<IProps> = () => {
                 });
 
             }
-        })
+        });
         }
+
+    }
+
+    // DELETE CONFIRMATION
+    const confirm = (id: string | undefined) => {
+        confirmDialog({
+            message: 'Ovim brišete studenta iz baze podataka!',
+            header: 'Potvrda',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => acceptFunc(id),
+            reject: () => rejectFunc()
+        });
+    }
+
+    const acceptFunc = async (id: string | undefined) => {
+       if(id){
+            await StudentService.deleteStudent(id).then((res) => {
+                if(res.status === 200){
+                    if(toast.current){
+                        toast.current.show({severity:'warn', summary: 'Student obrisan!', detail:'Uspješno ste obrisali studenta.', life: 3000});
+                        }
+                    
+                    StudentService.getAllStudents().then( (response) => {
+                        setState({
+                            ...state,
+                            loading: true,
+                            students: response.data
+                        });
+                   
+                    }).catch( (error) => {
+                        setState({
+                            ...state,
+                            loading: false,
+                            errorMessage: error.message
+                        })
+                        
+                        
+                   
+                    });
+    
+                }
+            });
+       }
+    }
+
+    const rejectFunc = () => {
 
     }
 
     return(
         <React.Fragment>
-
+<Toast ref={toast} />
 <div className="container">
     <div className="row">
         <div className="col">
             <p className="h3 mt-3 fw-bold text-success">Svi studenti</p>
             
-            <Button className='mt-1 mb-1' label="Novi student" icon="pi pi-plus" onClick={() => onClick('displayBasic', position)} />
+            <Button className='mt-1 mb-1' label="Novi student" icon="pi pi-plus" onClick={() => onClick1('displayBasic', position)} />
 
 <Dialog header="Novi student" visible={displayBasic} style={{ width: '50vw' }} 
 breakpoints={{'960px': '75vw', '740px': '100vw'}}
@@ -131,6 +180,7 @@ breakpoints={{'960px': '75vw', '740px': '100vw'}}
                         <th>Broj indeksa</th>
                         <th>Status studenta</th>
                         <th>Broj telefona</th>
+                        <th>Upravljanje</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -149,6 +199,11 @@ breakpoints={{'960px': '75vw', '740px': '100vw'}}
                                 <td>{student.indexNumber}</td>
                                 <td>{student.studentStatus}</td>
                                 <td>{student.phone}</td>
+                                <td>
+                                <Button onClick={() => confirm(student._id)} icon="pi pi-times" className='bg-red' ></Button>
+                                    
+                                </td>
+                                
                             </tr>
 
                                 )
@@ -158,6 +213,7 @@ breakpoints={{'960px': '75vw', '740px': '100vw'}}
                         
 
                     }
+                    <ConfirmDialog />
                 </tbody>
             </table>
         </div>
@@ -179,6 +235,7 @@ breakpoints={{'960px': '75vw', '740px': '100vw'}}
         </div> */}
         </div>
 
+    
         </React.Fragment>
     )
 

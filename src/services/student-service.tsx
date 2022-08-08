@@ -22,6 +22,13 @@ export class StudentService {
 
     }
 
+    public static deleteStudent(id: string){
+        let dataUrl: string = `${this.serverUrl}/delete-student`;
+
+        return axios.post(dataUrl, {id : id}, {withCredentials: true});        
+
+    }
+
     // public static getUser(id: string){
     //     let dataUrl: string = `${this.serverUrl}/users/` + id;
 

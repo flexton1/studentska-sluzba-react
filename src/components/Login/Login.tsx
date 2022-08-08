@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { errorMessage } from "../../models/errorMessage";
 import { LoginPayload } from "../../models/loginPayload";
 import { AuthService } from "../../services/auth-service";
@@ -6,6 +6,7 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 
 import "./loginStyles.css";
+import { Toast } from "primereact/toast";
 
 interface IState{
   login: LoginPayload
@@ -16,6 +17,8 @@ interface IProps{}
 
 
 let Login:React.FC<IProps> = () => {
+
+  const toast = useRef<Toast>(null);
 const ErrorMessage: errorMessage = {name: '', message: ''};
 
   // React States
@@ -49,6 +52,9 @@ let login = async (event: React.FormEvent<HTMLFormElement>) => {
 
    await AuthService.login(state.login.username, state.login.password).then((res) => {
           if(res.status == 200){
+            if(toast.current){
+              toast.current.show({severity:'success', summary: 'Prijavljeni ste!', detail:'Uspješno ste se prijavili!', life: 3000});
+            }
             setIsSubmitted(true);
             // let expires = new Date()
             // expires.setTime(expires.getTime() + (res.data.expires_in * 1000))
@@ -109,6 +115,7 @@ let login = async (event: React.FormEvent<HTMLFormElement>) => {
 
   return (
     <React.Fragment>
+      <Toast ref={toast} />
     <div className="app">
       <div className="login-form">
         <div className="title">Prijava</div>

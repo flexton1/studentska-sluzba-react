@@ -122,7 +122,7 @@ let CreateNewStudent:React.FC<IProps> = ({onHide}) => {
         </div>
 
         <div className="input-container">
-          <label>Broj telefona</label>
+          <label>Status studenta</label>
           <InputNumber type="tel" min={0} name="studentStatus" required 
           value={state.createNewStudent.studentStatus}
           onValueChange={updateInput}
