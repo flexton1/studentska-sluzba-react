@@ -109,8 +109,10 @@ let StudentList:React.FC<IProps> = () => {
             message: 'Ovim brišete studenta iz baze podataka!',
             header: 'Potvrda',
             icon: 'pi pi-exclamation-triangle',
+            acceptLabel: 'Nastavi',
+            rejectLabel: 'Odustani',
             accept: () => acceptFunc(id),
-            reject: () => rejectFunc()
+            reject: () => {}
         });
     }
 
@@ -145,9 +147,7 @@ let StudentList:React.FC<IProps> = () => {
        }
     }
 
-    const rejectFunc = () => {
 
-    }
 
     return(
         <React.Fragment>

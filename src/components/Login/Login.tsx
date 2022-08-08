@@ -7,6 +7,7 @@ import { Button } from 'primereact/button';
 
 import "./loginStyles.css";
 import { Toast } from "primereact/toast";
+import { useNavigate } from "react-router-dom";
 
 interface IState{
   login: LoginPayload
@@ -17,6 +18,8 @@ interface IProps{}
 
 
 let Login:React.FC<IProps> = () => {
+
+  const navigate = useNavigate();
 
   const toast = useRef<Toast>(null);
 const ErrorMessage: errorMessage = {name: '', message: ''};
@@ -60,11 +63,13 @@ let login = async (event: React.FormEvent<HTMLFormElement>) => {
             // expires.setTime(expires.getTime() + (res.data.expires_in * 1000))
             // setCookie('access_token', res.data.access_token, { path: '/',  expires});
             // console.log(res)
-
+            setTimeout(() => navigate(`/`), 1000);
             
 
           }else{
-            setErrorMessages(res.data.message);
+            if(toast.current){
+              toast.current.show({severity:'error', summary: 'Prijava neuspješna!', detail:'Pokušajte ponovo!', life: 3000});
+            }
           }
         });
 
