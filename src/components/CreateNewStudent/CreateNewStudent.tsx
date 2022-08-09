@@ -16,6 +16,8 @@ interface IProps{
 let CreateNewStudent:React.FC<IProps> = ({onHide}) => {
 
 
+  
+
     let [state, setState] = useState({
         createNewStudent: {
             firstName: '',
@@ -129,7 +131,8 @@ let CreateNewStudent:React.FC<IProps> = ({onHide}) => {
 
         <div className="input-container">
           <label>Status studenta</label>
-          <Dropdown name="studentStatus" value={state.createNewStudent.studentStatus} options={statusSelectItems} placeholder="Odaberite status" onChange={updateInput}/>
+          <Dropdown name="studentStatus" value={state.createNewStudent.studentStatus}
+           options={statusSelectItems} placeholder="Odaberite status" onChange={updateInput}/>
           
         </div>
         {/* <div className="button-container">

@@ -14,6 +14,13 @@ export class AuthService {
 
     }
 
+    public static checkLogin()
+    {
+        let dataUrl: string = `${this.serverUrl}/check-token`;
+
+        return axios.get(dataUrl, {withCredentials: true, });
+    }
+
     // public static getUser(id: string){
     //     let dataUrl: string = `${this.serverUrl}/users/` + id;
 

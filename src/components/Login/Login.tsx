@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { errorMessage } from "../../models/errorMessage";
 import { LoginPayload } from "../../models/loginPayload";
 import { AuthService } from "../../services/auth-service";
@@ -8,6 +8,7 @@ import { Button } from 'primereact/button';
 import "./loginStyles.css";
 import { Toast } from "primereact/toast";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 interface IState{
   login: LoginPayload
@@ -18,6 +19,12 @@ interface IProps{}
 
 
 let Login:React.FC<IProps> = () => {
+
+
+  // const [cookies, setCookie, removeCookie] = useCookies();
+
+  // console.log(cookies.access_token);
+
 
   const navigate = useNavigate();
 
@@ -50,7 +57,7 @@ let updateInput = (event:React.ChangeEvent<HTMLInputElement>): void => {
 
 let login = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(state.login);
+    
 
 
    await AuthService.login(state.login.email, state.login.password).then((res) => {
@@ -117,6 +124,20 @@ let login = async (event: React.FormEvent<HTMLFormElement>) => {
       </form>
     </div>
   );
+
+  useEffect(() => {
+    AuthService.checkLogin().then((res) => {
+      if(res.status === 200){
+        setIsSubmitted(true);
+        setTimeout(() => navigate(`/`), 1000);
+      }
+
+
+    })
+  }, []);
+
+
+
 
   return (
     <React.Fragment>

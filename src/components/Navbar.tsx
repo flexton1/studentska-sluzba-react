@@ -22,11 +22,12 @@ let Navbar:React.FC<IProps> = () => {
                 <div className="collapse navbar-collapse">
                 <ul className='navbar-nav d-flex align-items-right'>
                     <li className='nav-item'>
-                        <Link to={'/'} className='nav-link'>Moj profil</Link>
+                        <Link to={'/registracija'} className='nav-link'>Registracija</Link>
                     </li>
                     <li className='nav-item'>
                         <Link to={'/login'} className='nav-link'>Prijava</Link>
                     </li>
+                
                 </ul>
 
                 {/* { isExpanded ? <div className="collapse" id="navbarToggleExternalContent">
