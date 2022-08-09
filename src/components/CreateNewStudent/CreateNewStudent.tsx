@@ -1,12 +1,13 @@
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { StudentService } from '../../services/student-service';
 import { InputNumber } from 'primereact/inputnumber';
 import { Dropdown } from 'primereact/dropdown';
 
 
 import "./CreateNewStudent.css";
+import { Toast } from 'primereact/toast';
 
 interface IState{}
 interface IProps{
@@ -16,7 +17,7 @@ interface IProps{
 let CreateNewStudent:React.FC<IProps> = ({onHide}) => {
 
 
-  
+  const toast = useRef<Toast>(null);
 
     let [state, setState] = useState({
         createNewStudent: {
@@ -41,29 +42,7 @@ let CreateNewStudent:React.FC<IProps> = ({onHide}) => {
         
     }
 
-    let createNewStudent = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        console.log(state.createNewStudent);
-
-
-    
-    
-       await StudentService.createNewStudent(state.createNewStudent).then((res: any) => {
-              if(res.data.message == 'Student created!'){
-                // setIsSubmitted(true);
-                // let expires = new Date()
-                // expires.setTime(expires.getTime() + (res.data.expires_in * 1000))
-                // setCookie('access_token', res.data.access_token, { path: '/',  expires});
-                // console.log(res)
-    
-                
-    
-              }else{
-                // setErrorMessages(res.data.message);
-              }
-            }); 
-    
-    }
+  
 
     const statusSelectItems = [
       {label: 'Redovan', value: 1},
@@ -77,8 +56,8 @@ let CreateNewStudent:React.FC<IProps> = ({onHide}) => {
     return(
         <React.Fragment>
 
-
-<form onSubmit={createNewStudent}>
+<Toast ref={toast} />
+<form>
         <div className="input-container">
           <label>Ime</label>
           <InputText type="text" name="firstName" required 

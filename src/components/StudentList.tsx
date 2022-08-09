@@ -70,7 +70,7 @@ let StudentList:React.FC<IProps> = () => {
         
         dialogFuncMap[`${name}`](false);
 
-        if(student){
+        if(student && value === true){
         
 
 
@@ -93,8 +93,9 @@ let StudentList:React.FC<IProps> = () => {
                         errorMessage: error.message
                     })
                     
-                    
-               
+                    if(toast.current){
+                        toast.current.show({severity:'error', summary: 'Nije bilo moguce kreirati studenta!', detail: error.message, life: 3000});
+                        }
                 });
 
             }
