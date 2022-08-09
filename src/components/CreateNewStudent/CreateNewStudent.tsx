@@ -3,6 +3,7 @@ import { InputText } from 'primereact/inputtext';
 import React, { useState } from 'react';
 import { StudentService } from '../../services/student-service';
 import { InputNumber } from 'primereact/inputnumber';
+import { Dropdown } from 'primereact/dropdown';
 
 
 import "./CreateNewStudent.css";
@@ -58,10 +59,15 @@ let CreateNewStudent:React.FC<IProps> = ({onHide}) => {
               }else{
                 // setErrorMessages(res.data.message);
               }
-            });
-    
+            }); 
     
     }
+
+    const statusSelectItems = [
+      {label: 'Redovan', value: 1},
+      {label: 'Vanredan', value: 2}
+    
+  ];
     
 
 
@@ -123,11 +129,7 @@ let CreateNewStudent:React.FC<IProps> = ({onHide}) => {
 
         <div className="input-container">
           <label>Status studenta</label>
-          <InputNumber type="tel" min={0} name="studentStatus" required 
-          value={state.createNewStudent.studentStatus}
-          onValueChange={updateInput}
-          
-          />
+          <Dropdown name="studentStatus" value={state.createNewStudent.studentStatus} options={statusSelectItems} placeholder="Odaberite status" onChange={updateInput}/>
           
         </div>
         {/* <div className="button-container">

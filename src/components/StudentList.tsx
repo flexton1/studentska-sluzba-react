@@ -197,7 +197,7 @@ breakpoints={{'960px': '75vw', '740px': '100vw'}}
                                     <Link to={`/studenti/${student._id}`} className='text-decoration-none text-success fw-bold'>{student.email}</Link>
                                     </td>
                                 <td>{student.indexNumber}</td>
-                                <td>{student.studentStatus}</td>
+                                <td>{student.studentStatus === 1 ? 'Redovan' : student.studentStatus === 2 ? 'Vanredan' : 'Nepoznato'}</td>
                                 <td>{student.phone}</td>
                                 <td>
                                 <Button onClick={() => confirm(student._id)} icon="pi pi-times" className='bg-red' ></Button>
