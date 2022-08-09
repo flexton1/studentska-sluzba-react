@@ -1,16 +1,24 @@
 import axios from 'axios';
+import { RegisterPayload } from '../models/RegisterPayload';
 
 
 export class AuthService {
     private static serverUrl: string = 'http://localhost:4000';
 
 
+    public static register(value: RegisterPayload){
+        let dataUrl: string = `${this.serverUrl}/register`;
+
+        return axios.post(dataUrl, value, {withCredentials: true});
+
+    }
+
 
     public static login(email: string, password: string)
     {
         let dataUrl: string = `${this.serverUrl}/login`;
 
-        return axios.post(dataUrl, {email: email, password: password}, {withCredentials: true})
+        return axios.post(dataUrl, {email: email, password: password}, {withCredentials: true});
 
     }
 

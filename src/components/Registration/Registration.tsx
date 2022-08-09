@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Toast } from "primereact/toast";
 import { errorMessage } from "../../models/errorMessage";
-import { LoginPayload } from "../../models/loginPayload";
 import { AuthService } from "../../services/auth-service";
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
@@ -10,11 +9,13 @@ import { Button } from 'primereact/button';
 
 
 import "../Login/loginStyles.css"
+import { InputNumber } from "primereact/inputnumber";
+import { RegisterPayload } from "../../models/RegisterPayload";
 
 
 
 interface IState{
-    // login: LoginPayload
+    register: RegisterPayload
   }
   
   interface IProps{}
@@ -40,18 +41,20 @@ interface IState{
   
   
     let [state, setState] = useState({
-      login: {
+      register: {
           email: '',
           password: '',
           firstName: '',
-          lastName: ''
+          lastName: '',
+          company: '',
+          phone: 0
       }
   })
   
-  let updateInput = (event:React.ChangeEvent<HTMLInputElement>): void => {
+  let updateInput = (event:any): void => {
       
      setState({
-     login: { ...state.login,
+     register: { ...state.register,
       [event.target.name]: event.target.value
   }
   });
@@ -60,27 +63,27 @@ interface IState{
   
   // const [cookies, setCookie] = useCookies(['access_token']);
   
-  let login = async (event: React.FormEvent<HTMLFormElement>) => {
+  let register = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       
   
   
-     await AuthService.login(state.login.email, state.login.password).then((res) => {
+     await AuthService.register(state.register).then((res) => {
             if(res.status == 200){
               if(toast.current){
-                toast.current.show({severity:'success', summary: 'Prijavljeni ste!', detail:'Uspješno ste se prijavili!', life: 3000});
+                toast.current.show({severity:'success', summary: 'Registrovali ste ste!', detail:'Uspješno ste obavili registraciju!', life: 3000});
               }
               setIsSubmitted(true);
               // let expires = new Date()
               // expires.setTime(expires.getTime() + (res.data.expires_in * 1000))
               // setCookie('access_token', res.data.access_token, { path: '/',  expires});
               // console.log(res)
-              setTimeout(() => navigate(`/`), 1000);
+              setTimeout(() => navigate(`/login`), 1000);
               
   
             }else{
               if(toast.current){
-                toast.current.show({severity:'error', summary: 'Prijava neuspješna!', detail:'Pokušajte ponovo!', life: 3000});
+                toast.current.show({severity:'error', summary: 'Registracija neuspješna!', detail:'Pokušajte ponovo!', life: 3000});
               }
             }
           });
@@ -88,26 +91,16 @@ interface IState{
   
   }
   
-  
-  
-    const errors = {
-      username: "invalid username",
-      password: "invalid password"
-    };
-  
-    
-  
-   
-    
+      
   
     // JSX code for login form
     const renderForm = (
       <div className="form">
-        <form onSubmit={login}>
+        <form onSubmit={register}>
           <div className="input-container">
             <label>Email </label>
             <InputText type="text" name="email" required 
-            value={state.login.email}
+            value={state.register.email}
             onChange={updateInput}
             />
            
@@ -115,13 +108,43 @@ interface IState{
           <div className="input-container">
             <label>Lozinka </label>
             <InputText type="password" name="password" required 
-            value={state.login.password}
+            value={state.register.password}
             onChange={updateInput}
             />
-            
+            </div>
+            <div className="input-container">
+            <label>Ime </label>
+            <InputText type="text" name="firstName" required 
+            value={state.register.firstName}
+            onChange={updateInput}
+            />
+            </div>
+            <div className="input-container">
+            <label>Prezime </label>
+            <InputText type="text" name="lastName" required 
+            value={state.register.lastName}
+            onChange={updateInput}
+            />
+            </div>
+            <div className="input-container">
+            <label>Fakultet </label>
+            <InputText type="text" name="company" required 
+            value={state.register.company}
+            onChange={updateInput}
+            />
+            </div>
+            <div className="input-container">
+            <label>Broj telefona </label>
+            <InputNumber type="tel" name="phone" required 
+            value={state.register.phone}
+            onValueChange={updateInput}
+            />
+           
           </div>
+           
+          
           <div className="button-container">
-          <Button label="Prijava" className="p-button-raised p-button-rounded p-button-success" />
+          <Button label="Registracija" className="p-button-raised p-button-rounded p-button-success" />
           </div>
         </form>
       </div>
@@ -146,8 +169,8 @@ interface IState{
         <Toast ref={toast} />
       <div className="app">
         <div className="login-form">
-          <div className="title">Registracija nemoguća</div>
-          {isSubmitted ? <div>Prijavljeni ste!</div> : renderForm}
+          <div className="title">Registracija</div>
+          {isSubmitted ? <div>Registrovani ste!</div> : renderForm}
         </div>
       </div>
       </React.Fragment>
