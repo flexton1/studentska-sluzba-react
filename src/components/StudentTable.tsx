@@ -24,6 +24,7 @@ const reducer = (state: any, { type, payload }: any) => {
   switch (type) {
     case "onPage":
         state.query.page = payload.page;
+        
       return { ...state, loading: true, first: payload.first };
     case "dataLoaded":
       return { ...state, results: payload, loading: false };
@@ -62,7 +63,7 @@ const reducer = (state: any, { type, payload }: any) => {
         let data: IStudent[] = [];
         StudentService.getAllStudents(state.query).then((response) => {
             data = response.data.data;
-            state.totalRecords = response.totalRecords;
+            state.totalRecords = response.data.totalRecords;
         }).then(() => {
             dispatch({ type: "dataLoaded", payload: data });
         }).catch((err) => {
@@ -83,6 +84,7 @@ const reducer = (state: any, { type, payload }: any) => {
       <DataTable
         value={results}
         paginator
+        alwaysShowPaginator={true}
         rows={rows}
         totalRecords={totalRecords}
         lazy
