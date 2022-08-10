@@ -53,7 +53,7 @@ let CreateNewStudent:React.FC<IProps> = ({onHide}) => {
             }
             return;
         }else{
-          onHide('displayBasic', false, state.createNewStudent);
+          onHide('displayBasic', true, state.createNewStudent);
         }
 
 

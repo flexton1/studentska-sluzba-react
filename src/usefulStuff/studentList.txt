@@ -9,8 +9,6 @@ import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { Toast } from 'primereact/toast';
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import StudentTable from './StudentTable';
-import { Query } from '../models/Query';
 
 interface IState{
     loading: boolean;
@@ -19,7 +17,6 @@ interface IState{
     first: number;
     rows: number;
     totalRecords: number;
-    query: Query
 }
 interface IProps{}
 
@@ -33,18 +30,30 @@ let StudentList:React.FC<IProps> = () => {
         errorMessage: '',
         first: 0,
          rows: 5,
-    totalRecords: 10,
-    query : {
-        page: 0,
-        limit: 5
-    }
+    totalRecords: 10
         
     });
 
 
     useEffect( () => {
         setState({...state, loading: true});
+        StudentService.getAllStudents().then( (response) => {
+            setState({
+                ...state,
+                loading: true,
+                students: response.data
+            });
        
+        }).catch( (error) => {
+            setState({
+                ...state,
+                loading: false,
+                errorMessage: error.message
+            })
+            
+            
+       
+        });
     },
      [])
 
@@ -79,7 +88,7 @@ let StudentList:React.FC<IProps> = () => {
                 if(toast.current){
                 toast.current.show({severity:'success', summary: 'Student kreiran!', detail:'Uspješno ste kreirali studenta.', life: 3000});
                 }
-                StudentService.getAllStudents(state.query).then( (response) => {
+                StudentService.getAllStudents().then( (response) => {
                     setState({
                         ...state,
                         loading: true,
@@ -125,9 +134,7 @@ let StudentList:React.FC<IProps> = () => {
                         toast.current.show({severity:'warn', summary: 'Student obrisan!', detail:'Uspješno ste obrisali studenta.', life: 3000});
                         }
                     
-                        
-
-                    StudentService.getAllStudents(state.query).then( (response) => {
+                    StudentService.getAllStudents().then( (response) => {
                         setState({
                             ...state,
                             loading: true,
@@ -171,11 +178,74 @@ breakpoints={{'960px': '75vw', '740px': '100vw'}}
     </div>
 </div>
 
+{/* <div className="container">
+    <div className="row">
+        <div className="col">
+            <table className='table table-hover text-center table-striped'>
+                <thead className="bg-success text-white">
+                    <tr>
+                        <th>Ime</th>
+                        <th>Prezime</th>
+                        <th>Email</th>
+                        <th>Broj indeksa</th>
+                        <th>Status studenta</th>
+                        <th>Broj telefona</th>
+                        <th>Upravljanje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        
+                        
+                        students.length > 0 && students.map(student => {
+                                return(
+                            <tr key={student._id}>
+                                <td>{student.firstName}</td>
+                            
+                                <td>{student.lastName}</td>
+                                <td>
+                                    <Link to={`/studenti/${student._id}`} className='text-decoration-none text-success fw-bold'>{student.email}</Link>
+                                    </td>
+                                <td>{student.indexNumber}</td>
+                                <td>{student.studentStatus === 1 ? 'Redovan' : student.studentStatus === 2 ? 'Vanredan' : 'Nepoznato'}</td>
+                                <td>{student.phone}</td>
+                                <td>
+                                <Button onClick={() => confirm(student._id)} 
+                                icon="pi pi-times" 
+                                className='p-button-raised p-button-rounded p-button-danger h6' ></Button>
+                                    
+                                </td>
+                                
+                            </tr>
+
+                                )
+
+                        })
+
+                        
+
+                    }
+                    <ConfirmDialog />
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div> */}
 
 <div>
     <div className="container">
             <div className="card">
-                <StudentTable />
+                <DataTable value={students} responsiveLayout="scroll"    
+                 paginator
+                 lazy
+                >
+                    <Column field="firstName" header="Ime"></Column>
+                    <Column field="lastName" header="Prezime"></Column>
+                    <Column field="email" header="Email"></Column>
+                    <Column field="indexNumber" header="Broj indeksa"></Column>
+                    <Column field="studentStatus" header="Status studenta"></Column>
+                    <Column field="phone" header="Telefon"></Column>
+                </DataTable>
             </div>
         </div>
         </div>

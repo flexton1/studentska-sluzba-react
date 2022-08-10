@@ -1,15 +1,17 @@
 import axios from 'axios';
 import { IStudent } from '../models/IStudent';
+import { Query } from '../models/Query';
 
 export class StudentService {
     private static serverUrl: string = 'http://localhost:4000';
 
 
 
-    public static getAllStudents(){
+    public static getAllStudents(query: Query): Promise<any>
+    {
         let dataUrl: string = `${this.serverUrl}/get-all-students`;
 
-        return axios.get(dataUrl,{withCredentials: true, });
+        return axios.post(dataUrl, {query: query} ,{withCredentials: true, });
 
     }
 
