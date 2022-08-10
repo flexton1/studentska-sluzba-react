@@ -8,6 +8,7 @@ import { Dropdown } from 'primereact/dropdown';
 
 import "./CreateNewStudent.css";
 import { Toast } from 'primereact/toast';
+import { IStudent } from '../../models/IStudent';
 
 interface IState{}
 interface IProps{
@@ -40,7 +41,24 @@ let CreateNewStudent:React.FC<IProps> = ({onHide}) => {
     }
     });
         
-    }
+    };
+
+    const validateForm = (value: IStudent) => {
+
+      if(!value.email || !value.firstName || !value.indexNumber || !value.lastName
+        || !value.phone || !value.studentStatus || !value.year)
+        {
+          if(toast.current){
+            toast.current.show({severity:'error', summary: 'Sva polja su obavezna', detail:'Unesite vrijednost u sva polja!', life: 3000});
+            }
+            return;
+        }else{
+          onHide('displayBasic', false, state.createNewStudent);
+        }
+
+
+
+    };
 
   
 
@@ -50,7 +68,7 @@ let CreateNewStudent:React.FC<IProps> = ({onHide}) => {
     
   ];
     
-
+  
 
 
     return(
@@ -120,8 +138,8 @@ let CreateNewStudent:React.FC<IProps> = ({onHide}) => {
       </form>
 
       <div className='text-right'>
-                <Button label="Odustani" icon="pi pi-times" onClick={() => onHide('displayBasic', false, state.createNewStudent)} className="p-button-text" />
-                <Button label="Kreiraj" icon="pi pi-check" onClick={() => onHide('displayBasic', true, state.createNewStudent)} />
+                <Button label="Odustani" icon="pi pi-times" onClick={() => onHide('displayBasic', false, null)} className="p-button-text mr-4" />
+                <Button label="Kreiraj" icon="pi pi-check" onClick={() => validateForm(state.createNewStudent)} className='ml-3' />
             </div>
         </React.Fragment>
     )

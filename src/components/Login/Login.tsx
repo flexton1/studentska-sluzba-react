@@ -57,6 +57,13 @@ let updateInput = (event:React.ChangeEvent<HTMLInputElement>): void => {
 
 let login = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if(!state.login.email || !state.login.password){
+      if(toast.current){
+        toast.current.show({severity:'error', summary: 'Unesite podatke!', detail:'Niste unijeli email i lozinku.', life: 3000});
+      }
+      return;
+    }
     
 
 
@@ -82,8 +89,6 @@ let login = async (event: React.FormEvent<HTMLFormElement>) => {
 
 
 }
-
-
 
   const errors = {
     username: "invalid username",

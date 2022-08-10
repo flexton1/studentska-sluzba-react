@@ -201,7 +201,9 @@ breakpoints={{'960px': '75vw', '740px': '100vw'}}
                                 <td>{student.studentStatus === 1 ? 'Redovan' : student.studentStatus === 2 ? 'Vanredan' : 'Nepoznato'}</td>
                                 <td>{student.phone}</td>
                                 <td>
-                                <Button onClick={() => confirm(student._id)} icon="pi pi-times" className='bg-red' ></Button>
+                                <Button onClick={() => confirm(student._id)} 
+                                icon="pi pi-times" 
+                                className='p-button-raised p-button-rounded p-button-danger h6' ></Button>
                                     
                                 </td>
                                 
