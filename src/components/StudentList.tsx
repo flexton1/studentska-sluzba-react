@@ -65,7 +65,10 @@ let StudentList:React.FC<IProps> = () => {
         if (position) {
             setPosition(position);
         }
-    }
+    };
+
+    const onAddStudentRef = useRef<any>();
+
     const onHide = async (name: any, value: boolean, student: IStudent | undefined) => {
         
         dialogFuncMap[`${name}`](false);
@@ -79,28 +82,20 @@ let StudentList:React.FC<IProps> = () => {
                 if(toast.current){
                 toast.current.show({severity:'success', summary: 'Student kreiran!', detail:'Uspješno ste kreirali studenta.', life: 3000});
                 }
-                StudentService.getAllStudents(state.query).then( (response) => {
-                    setState({
-                        ...state,
-                        loading: true,
-                        students: response.data
-                    });
                
-                }).catch( (error) => {
-                    setState({
-                        ...state,
-                        loading: false,
-                        errorMessage: error.message
-                    })
-                    
-                    if(toast.current){
-                        toast.current.show({severity:'error', summary: 'Nije bilo moguce kreirati studenta!', detail: error.message, life: 3000});
-                        }
-                });
+                onAddStudentRef.current?.getAlert();
+                
 
             }
+        })
+        
+        .catch( (error) => { 
+            if(toast.current){
+                toast.current.show({severity:'error', summary: 'Nije bilo moguce kreirati studenta!', detail: error.message, life: 3000});
+                }
         });
-        }
+        
+    };
 
     }
 
@@ -150,6 +145,7 @@ let StudentList:React.FC<IProps> = () => {
        }
     }
 
+    
 
 
     return(
@@ -175,7 +171,7 @@ breakpoints={{'960px': '75vw', '740px': '100vw'}}
 <div>
     <div className="container">
             <div className="card">
-                <StudentTable />
+                <StudentTable onAddStudent={onAddStudentRef} />
             </div>
         </div>
         </div>

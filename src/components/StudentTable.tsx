@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer, useEffect, useImperativeHandle } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import carsfile from "./cars-small.json";
@@ -17,7 +17,9 @@ interface IState{
     totalRecords: number;
     query: Query;
 }
-interface IProps{}
+interface IProps{
+    onAddStudent: any
+}
 
 //OJO: action deconstruido automaticamente en type y payload
 const reducer = (state: any, { type, payload }: any) => {
@@ -33,7 +35,7 @@ const reducer = (state: any, { type, payload }: any) => {
   }
 };
 
- const StudentTable:React.FC<IProps> = () => {
+ const StudentTable:React.FC<IProps> = ({onAddStudent}) => {
   
     const initialState = {
     results: [],
@@ -59,7 +61,7 @@ const reducer = (state: any, { type, payload }: any) => {
       
         const startIndex = first;
         const endIndex = first + rows;
-        //Simulamos la peticion de datos páginada a un backend
+        
         let data: IStudent[] = [];
         StudentService.getAllStudents(state.query).then((response) => {
             data = response.data.data;
@@ -68,15 +70,30 @@ const reducer = (state: any, { type, payload }: any) => {
             dispatch({ type: "dataLoaded", payload: data });
         }).catch((err) => {
             console.log(err);
-        })
+        });
         
-
-        
-    
-      //Simulamos el tiempo que tardaria en reaccionar el backend
     }
-    //Modificar estas variables son las lanzan la funcion useEffect
+
+    
+      
   }, [loading, first, rows]);
+
+  useImperativeHandle(onAddStudent, () => ({
+
+    getAlert() {
+      let data: IStudent[] = [];
+        StudentService.getAllStudents(state.query).then((response) => {
+            data = response.data.data;
+            state.totalRecords = response.data.totalRecords;
+        }).then(() => {
+            dispatch({ type: "dataLoaded", payload: data });
+        }).catch((err) => {
+            console.log(err);
+        })
+    }
+
+  }));
+  
 
   return (
     <React.Fragment>
