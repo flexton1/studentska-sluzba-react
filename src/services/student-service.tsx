@@ -31,6 +31,13 @@ export class StudentService {
 
     }
 
+    public static updateStudent(student: IStudent){
+        let dataUrl: string = `${this.serverUrl}/update-student`;
+
+        return axios.post(dataUrl, student, {withCredentials: true});
+    }
+
+
     // public static getUser(id: string){
     //     let dataUrl: string = `${this.serverUrl}/users/` + id;
 

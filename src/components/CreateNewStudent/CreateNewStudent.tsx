@@ -9,6 +9,7 @@ import { Dropdown } from 'primereact/dropdown';
 import "./CreateNewStudent.css";
 import { Toast } from 'primereact/toast';
 import { IStudent } from '../../models/IStudent';
+import { StudentStatusEnum } from '../Enums/StudentStatusEnum';
 
 interface IState{}
 interface IProps{
@@ -63,8 +64,8 @@ let CreateNewStudent:React.FC<IProps> = ({onHide}) => {
   
 
     const statusSelectItems = [
-      {label: 'Redovan', value: 1},
-      {label: 'Vanredan', value: 2}
+      {label: 'Redovan', value: StudentStatusEnum.Redovan},
+      {label: 'Vanredan', value: StudentStatusEnum.Vanredan}
     
   ];
     
