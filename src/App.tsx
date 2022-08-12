@@ -2,9 +2,12 @@ import React from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
 import { Route, Routes } from 'react-router-dom';
-import Login from './components/Login/Login';
-import Registration from './components/Registration/Registration';
-import StudentList from './components/StudentList';
+
+
+const Login = React.lazy(() => import('./components/Login/Login'));
+const StudentList = React.lazy(() => import('./components/StudentList'));
+const Registration = React.lazy(() => import('./components/Registration/Registration'));
+
 
 
 function App() {
@@ -12,9 +15,26 @@ function App() {
     <React.Fragment>
       <Navbar />
       <Routes>
-        <Route path={'/'} element={<StudentList />} />
-        <Route path={'/login'} element={<Login />} />
-        <Route path={'/registracija'} element={<Registration />} />
+      
+        <Route path={'/'} element={
+       <React.Suspense fallback={<>...</>}>
+       <StudentList />
+       </React.Suspense>
+        } />
+        
+        
+        <Route path={'/login'} element={
+        <React.Suspense fallback={<>...</>}>
+        <Login />
+        </React.Suspense>
+        } />
+       
+        <Route path={'/registracija'} element={
+         <React.Suspense fallback={<>...</>}>
+        <Registration />
+        </React.Suspense>
+        } />
+     
       </Routes>
 
     </React.Fragment>

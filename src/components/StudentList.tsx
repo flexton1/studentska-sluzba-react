@@ -9,8 +9,9 @@ import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { Toast } from 'primereact/toast';
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import StudentTable from './StudentTable';
+import StudentTable from './StudentTable/StudentTable';
 import { Query } from '../models/Query';
+import { InputText } from 'primereact/inputtext';
 
 interface IState{
     loading: boolean;
@@ -36,7 +37,8 @@ let StudentList:React.FC<IProps> = () => {
     totalRecords: 10,
     query : {
         page: 0,
-        limit: 5
+        limit: 5,
+        filter_string: ''
     }
         
     });
@@ -68,27 +70,19 @@ let StudentList:React.FC<IProps> = () => {
     };
 
     const onAddStudentRef = useRef<any>();
+    const onSearchStudentRef = useRef<any>();
 
     const onHide = async (name: any, value: boolean, student: IStudent | undefined) => {
-        
         dialogFuncMap[`${name}`](false);
-
         if(student && value === true){
-        
-
-
         await StudentService.createNewStudent(student).then((res) => {
             if(res.status === 200){
                 if(toast.current){
                 toast.current.show({severity:'success', summary: 'Student kreiran!', detail:'Uspješno ste kreirali studenta.', life: 3000});
                 }
-               
                 onAddStudentRef.current?.getAlert();
-                
-
             }
         })
-        
         .catch( (error) => { 
             if(toast.current){
                 toast.current.show({severity:'error', summary: 'Nije bilo moguce kreirati studenta!', detail: error.message, life: 3000});
@@ -119,33 +113,19 @@ let StudentList:React.FC<IProps> = () => {
                     if(toast.current){
                         toast.current.show({severity:'warn', summary: 'Student obrisan!', detail:'Uspješno ste obrisali studenta.', life: 3000});
                         }
-                    
                         
-
-                    StudentService.getAllStudents(state.query).then( (response) => {
-                        setState({
-                            ...state,
-                            loading: true,
-                            students: response.data
-                        });
-                   
-                    }).catch( (error) => {
-                        setState({
-                            ...state,
-                            loading: false,
-                            errorMessage: error.message
-                        })
-                        
-                        
-                   
-                    });
-    
+                        onAddStudentRef.current?.getAlert();
                 }
             });
        }
     }
 
-    
+    let updateInput = (event: any): void => {
+        
+    console.log(event)
+    state.query.filter_string = event.nativeEvent.data;
+         
+     };
 
 
     return(
@@ -155,8 +135,14 @@ let StudentList:React.FC<IProps> = () => {
     <div className="row">
         <div className="col">
             <p className="h3 mt-3 fw-bold text-success">Svi studenti</p>
-            
-            <Button className='mt-1 mb-1' label="Novi student" icon="pi pi-plus" onClick={() => onClick1('displayBasic', position)} />
+            <div className='d-inline-flex justify-content-between bd-highlight align-items-center'>
+            <div className="p-2 flex-fill bd-highlight">
+            <Button className='mt-1 mb-1 pr-3' label="Novi student" icon="pi pi-plus" onClick={() => onClick1('displayBasic', position)} />
+            </div>
+            <div className="p-2 flex-fill bd-highlight">
+            <InputText placeholder='Search students' value={state.query.filter_string} onChange={updateInput} className='ml-3' />
+            </div>
+            </div>
 
 <Dialog header="Novi student" visible={displayBasic} style={{ width: '50vw' }} 
 breakpoints={{'960px': '75vw', '740px': '100vw'}}
@@ -169,9 +155,9 @@ breakpoints={{'960px': '75vw', '740px': '100vw'}}
 
 
 <div>
-    <div className="container">
+    <div className="container-fluid mt-2">
             <div className="card">
-                <StudentTable onAddStudent={onAddStudentRef} />
+                <StudentTable onAddStudent={onAddStudentRef} onSearchStudentRef={onSearchStudentRef} />
             </div>
         </div>
         </div>

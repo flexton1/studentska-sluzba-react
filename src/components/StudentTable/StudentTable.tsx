@@ -1,15 +1,17 @@
 import React, { useReducer, useEffect, useImperativeHandle, useRef } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import carsfile from "./cars-small.json";
-import { IStudent } from "../models/IStudent";
-import { StudentService } from "../services/student-service";
-import { Query } from "../models/Query";
+import carsfile from "../cars-small.json";
+import { IStudent } from "../../models/IStudent";
+import { StudentService } from "../../services/student-service";
+import { Query } from "../../models/Query";
 import { InputText } from "primereact/inputtext";
 import { InputNumber } from "primereact/inputnumber";
-import { StudentStatusEnum } from "./Enums/StudentStatusEnum";
+import { StudentStatusEnum } from "../Enums/StudentStatusEnum";
 import { idText } from "typescript";
 import { Toast, ToastSeverityType } from "primereact/toast";
+
+import "./StudentTable.css";
 
 const init: any = (initialState: any) => initialState;
 
@@ -23,7 +25,8 @@ interface IState{
     query: Query;
 }
 interface IProps{
-    onAddStudent: any
+    onAddStudent: any;
+    onSearchStudentRef: any;
 }
 
 //OJO: action deconstruido automaticamente en type y payload
@@ -40,7 +43,7 @@ const reducer = (state: any, { type, payload }: any) => {
   }
 };
 
- const StudentTable:React.FC<IProps> = ({onAddStudent}) => {
+ const StudentTable:React.FC<IProps> = ({onAddStudent, onSearchStudentRef}) => {
   
     const initialState = {
     results: [],
@@ -50,12 +53,14 @@ const reducer = (state: any, { type, payload }: any) => {
     totalRecords: 10,
     query: {
         page: 0,
-        limit: 5
+        limit: 5,
+        filter_string: ''
     }
   };
 
 
 const toast = useRef<Toast>(null);
+
 const showDialog = (type: ToastSeverityType, summary: string, detail: string) => {
   if(toast.current){
     toast.current.show({severity: type, summary: summary, detail: detail, life: 3000});
@@ -108,6 +113,15 @@ const showDialog = (type: ToastSeverityType, summary: string, detail: string) =>
   useImperativeHandle(onAddStudent, () => ({
 
     getAlert() {
+      loadData();
+    }
+
+  }));
+
+  useImperativeHandle(onSearchStudentRef, () => ({
+
+    searchString(filter_string: string) {
+      state.query.filter_string = filter_string;
       loadData();
     }
 
