@@ -3,7 +3,7 @@ import { IStudent } from '../models/IStudent';
 import { Query } from '../models/Query';
 
 export class StudentService {
-    private static serverUrl: string = 'http://localhost:4000';
+    private static serverUrl: string | any = process.env.REACT_APP_API_ENDPOINT;
 
 
 

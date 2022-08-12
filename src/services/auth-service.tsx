@@ -3,7 +3,9 @@ import { RegisterPayload } from '../models/RegisterPayload';
 
 
 export class AuthService {
-    private static serverUrl: string = 'http://localhost:4000';
+    
+    private static serverUrl: string | any = process.env.REACT_APP_API_ENDPOINT;
+    
 
 
     public static register(value: RegisterPayload){

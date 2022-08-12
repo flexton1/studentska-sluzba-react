@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
-import { Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes } from 'react-router-dom';
 
 
 const Login = React.lazy(() => import('./components/Login/Login'));
@@ -15,7 +15,7 @@ function App() {
     <React.Fragment>
       <Navbar />
       <Routes>
-      
+      <Route path="*" element={<NoMatch />} />
         <Route path={'/'} element={
        <React.Suspense fallback={<>...</>}>
        <StudentList />
@@ -42,3 +42,16 @@ function App() {
 }
 
 export default App;
+
+
+const NoMatch = () => {
+  return (
+    <div>
+      <h2>Nothing to see here!</h2>
+      <p>
+        <Link to="/">Go to the home page</Link>
+      </p>
+    </div>
+  );
+}
+
