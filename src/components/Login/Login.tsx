@@ -14,7 +14,9 @@ interface IState{
   login: LoginPayload
 }
 
-interface IProps{}
+interface IProps{
+ 
+}
 
 
 
@@ -130,8 +132,8 @@ let login = async (event: React.FormEvent<HTMLFormElement>) => {
     </div>
   );
 
-  useEffect(() => {
-    AuthService.checkLogin().then((res) => {
+  useEffect( ()=> {
+     AuthService.checkLogin().then((res) => {
       if(res.status === 200){
         setIsSubmitted(true);
         setTimeout(() => navigate(`/`), 1000);

@@ -23,22 +23,22 @@ let StudentList:React.FC<IProps> = () => {
     const toast = useRef<Toast>(null);
 
 
-    let [state, setState] = useState<IState>({
-        loading: false,
-        students: [] as IStudent[],
-        errorMessage: ''
+    // let [state, setState] = useState<IState>({
+    //     loading: false,
+    //     students: [] as IStudent[],
+    //     errorMessage: ''
         
-    });
+    // });
 
 
-    useEffect( () => {
-        setState({...state, loading: true});
+    // useEffect( () => {
+    //     setState({...state, loading: true});
        
-    },
-     [])
+    // },
+    //  [])
 
 
-    let {loading, students, errorMessage} = state;
+    // let {loading, students, errorMessage} = state;
 
 
     const [displayBasic, setDisplayBasic] = useState(false);
@@ -50,7 +50,6 @@ let StudentList:React.FC<IProps> = () => {
     
     const onClick1 = (name: any, position: any) => {
         dialogFuncMap[`${name}`](true);
-
         if (position) {
             setPosition(position);
         }
@@ -59,6 +58,13 @@ let StudentList:React.FC<IProps> = () => {
     const onAddStudentRef = useRef<any>();
     const onSearchStudentRef = useRef<any>();
 
+    let updateInput = (event: any): void => {
+
+        onSearchStudentRef.current.searchString(event.target.value);
+        
+     };
+
+    //CREATE NEW STUDENT DIALOG ONHIDE
     const onHide = async (name: any, value: boolean, student: IStudent | undefined) => {
         dialogFuncMap[`${name}`](false);
         if(student && value === true){
@@ -107,11 +113,7 @@ let StudentList:React.FC<IProps> = () => {
        }
     }
 
-    let updateInput = (event: any): void => {
-
-        onSearchStudentRef.current.searchString(event.target.value);
-        
-     };
+   
 
 
     return(

@@ -13,3 +13,8 @@ body{
     -webkit-appearance: none;
     margin: 0;
   }
+
+
+  .odjava-button{
+    cursor: pointer;
+  }

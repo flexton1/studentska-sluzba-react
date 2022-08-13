@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
 import { Link, Route, Routes } from 'react-router-dom';
@@ -7,6 +7,8 @@ import { Link, Route, Routes } from 'react-router-dom';
 const Login = React.lazy(() => import('./components/Login/Login'));
 const StudentList = React.lazy(() => import('./components/StudentList'));
 const Registration = React.lazy(() => import('./components/Registration/Registration'));
+
+
 
 
 

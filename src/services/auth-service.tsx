@@ -31,6 +31,13 @@ export class AuthService {
         return axios.get(dataUrl, {withCredentials: true, });
     }
 
+    public static logout()
+    {
+        let dataUrl: string = `${this.serverUrl}/logout`;
+
+        return axios.get(dataUrl, {withCredentials: true});
+    }
+
     // public static getUser(id: string){
     //     let dataUrl: string = `${this.serverUrl}/users/` + id;
 

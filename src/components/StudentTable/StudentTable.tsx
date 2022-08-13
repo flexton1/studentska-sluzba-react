@@ -1,14 +1,12 @@
 import React, { useReducer, useEffect, useImperativeHandle, useRef } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import carsfile from "../cars-small.json";
 import { IStudent } from "../../models/IStudent";
 import { StudentService } from "../../services/student-service";
 import { Query } from "../../models/Query";
 import { InputText } from "primereact/inputtext";
 import { InputNumber } from "primereact/inputnumber";
 import { StudentStatusEnum } from "../Enums/StudentStatusEnum";
-import { idText } from "typescript";
 import { Toast, ToastSeverityType } from "primereact/toast";
 
 import "./StudentTable.css";
@@ -72,12 +70,9 @@ const showDialog = (type: ToastSeverityType, summary: string, detail: string) =>
   const { results, loading, rows, first, totalRecords } = state;
 
   useEffect( () => {
-    if (loading) {
-      
-        const startIndex = first;
-        const endIndex = first + rows;
+
         loadData();
-    } 
+    
   }, [loading, first, rows]);
 
 
@@ -156,6 +151,8 @@ const onRowEditComplete = (e: any) => {
 
 
 }
+
+
   
 
   return (

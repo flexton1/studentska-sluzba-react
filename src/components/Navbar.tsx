@@ -1,11 +1,46 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useImperativeHandle, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthService } from '../services/auth-service';
 
 interface IState{}
-interface IProps{}
+interface IProps{
+   
+}
 
 let Navbar:React.FC<IProps> = () => {
 
+    const navigate = useNavigate();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    
+
+    const checkLogin = async () => {
+        await AuthService.checkLogin().then((res: any) => {
+            console.log(res)
+            if(res.status === 200 && res.data == 'Token valid!'){
+              setIsLoggedIn(true);
+            }else{
+                setIsLoggedIn(false);
+            }
+     })
+    };
+
+    useEffect(() => {
+        checkLogin();
+    }, []);
+
+     const logout = async () => {
+
+        await AuthService.logout().then((res) => {
+            if(res.status === 200){
+                checkLogin();
+                setTimeout(() => navigate(`/login`), 100);
+            }
+        })
+
+
+     }
+
+    
     
 
     return(
@@ -20,7 +55,7 @@ let Navbar:React.FC<IProps> = () => {
     </button>
 
                 <div className="collapse navbar-collapse">
-                <ul className='navbar-nav d-flex align-items-right'>
+               {!isLoggedIn ? <ul className='navbar-nav d-flex align-items-right'>
                     <li className='nav-item'>
                         <Link to={'/registracija'} className='nav-link'>Registracija</Link>
                     </li>
@@ -28,7 +63,12 @@ let Navbar:React.FC<IProps> = () => {
                         <Link to={'/login'} className='nav-link'>Prijava</Link>
                     </li>
                 
-                </ul>
+                </ul> :     
+                <ul className='navbar-nav d-flex align-items-right'>
+                    <li className='nav-item'>
+                        <span onClick={logout} className='nav-link odjava-button'>Odjava</span>
+                    </li>
+                    </ul>} 
 
                 {/* { isExpanded ? <div className="collapse" id="navbarToggleExternalContent">
       <div className="bg-dark p-4">
