@@ -5,10 +5,8 @@ import { StudentService } from '../services/student-service';
 import { Dialog } from 'primereact/dialog';
 import {Button} from 'primereact/button';
 import CreateNewStudent from './CreateNewStudent/CreateNewStudent';
-import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { confirmDialog } from 'primereact/confirmdialog';
 import { Toast } from 'primereact/toast';
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
 import StudentTable from './StudentTable/StudentTable';
 import { Query } from '../models/Query';
 import { InputText } from 'primereact/inputtext';
@@ -17,10 +15,7 @@ interface IState{
     loading: boolean;
     students: IStudent[];
     errorMessage: string;
-    first: number;
-    rows: number;
-    totalRecords: number;
-    query: Query
+   
 }
 interface IProps{}
 
@@ -31,15 +26,7 @@ let StudentList:React.FC<IProps> = () => {
     let [state, setState] = useState<IState>({
         loading: false,
         students: [] as IStudent[],
-        errorMessage: '',
-        first: 0,
-         rows: 5,
-    totalRecords: 10,
-    query : {
-        page: 0,
-        limit: 5,
-        filter_string: ''
-    }
+        errorMessage: ''
         
     });
 
@@ -121,10 +108,9 @@ let StudentList:React.FC<IProps> = () => {
     }
 
     let updateInput = (event: any): void => {
+
+        onSearchStudentRef.current.searchString(event.target.value);
         
-    console.log(event)
-    state.query.filter_string = event.nativeEvent.data;
-         
      };
 
 
@@ -140,12 +126,12 @@ let StudentList:React.FC<IProps> = () => {
             <Button className='mt-1 mb-1 pr-3' label="Novi student" icon="pi pi-plus" onClick={() => onClick1('displayBasic', position)} />
             </div>
             <div className="p-2 flex-fill bd-highlight">
-            <InputText placeholder='Search students' value={state.query.filter_string} onChange={updateInput} className='ml-3' />
+            <InputText placeholder='Search students' onChange={updateInput} className='ml-3' />
             </div>
             </div>
 
 <Dialog header="Novi student" visible={displayBasic} style={{ width: '50vw' }} 
-breakpoints={{'960px': '75vw', '740px': '100vw'}}
+breakpoints={{'1360px': '75vw', '940px': '100vw'}}
  onHide={() => onHide('displayBasic', false, undefined)}>
     <CreateNewStudent onHide={onHide} />
 </Dialog>

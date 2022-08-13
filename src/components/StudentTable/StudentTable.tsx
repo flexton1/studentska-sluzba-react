@@ -121,6 +121,7 @@ const showDialog = (type: ToastSeverityType, summary: string, detail: string) =>
   useImperativeHandle(onSearchStudentRef, () => ({
 
     searchString(filter_string: string) {
+      
       state.query.filter_string = filter_string;
       loadData();
     }

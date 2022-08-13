@@ -77,7 +77,7 @@ let CreateNewStudent:React.FC<IProps> = ({onHide}) => {
 
 <Toast ref={toast} />
 <form>
-        <div className="input-container">
+        <div className="input-container d-flex flex-column">
           <label>Ime</label>
           <InputText type="text" name="firstName" required 
           value={state.createNewStudent.firstName}
@@ -85,7 +85,7 @@ let CreateNewStudent:React.FC<IProps> = ({onHide}) => {
           />
           
         </div>
-        <div className="input-container">
+        <div className="input-container d-flex flex-column">
           <label>Prezime </label>
           <InputText type="text" name="lastName" required 
           value={state.createNewStudent.lastName}
@@ -93,7 +93,7 @@ let CreateNewStudent:React.FC<IProps> = ({onHide}) => {
           />
           
         </div>
-        <div className="input-container">
+        <div className="input-container d-flex flex-column">
           <label>Email </label>
           <InputText type="text" name="email" required 
           value={state.createNewStudent.email}
@@ -101,7 +101,7 @@ let CreateNewStudent:React.FC<IProps> = ({onHide}) => {
           />
           
         </div>
-        <div className="input-container">
+        <div className="input-container d-flex flex-column">
           <label>Broj indeksa</label>
           <InputText type="text" name="indexNumber" required 
           value={state.createNewStudent.indexNumber}
@@ -109,7 +109,7 @@ let CreateNewStudent:React.FC<IProps> = ({onHide}) => {
           />
           
         </div>
-        <div className="input-container">
+        <div className="input-container d-flex flex-column">
           <label>Godina</label>
           <InputNumber type="tel" min={0} name="year" required 
           value={state.createNewStudent.year}
@@ -117,7 +117,7 @@ let CreateNewStudent:React.FC<IProps> = ({onHide}) => {
           />
           
         </div>
-        <div className="input-container">
+        <div className="input-container d-flex flex-column">
           <label>Broj telefona</label>
           <InputNumber type="tel" min={0} name="phone" required 
           value={state.createNewStudent.phone}
@@ -127,7 +127,7 @@ let CreateNewStudent:React.FC<IProps> = ({onHide}) => {
           
         </div>
 
-        <div className="input-container">
+        <div className="input-container d-flex flex-column mb-3">
           <label>Status studenta</label>
           <Dropdown name="studentStatus" value={state.createNewStudent.studentStatus}
            options={statusSelectItems} placeholder="Odaberite status" onChange={updateInput}/>
