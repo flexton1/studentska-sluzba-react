@@ -8,7 +8,8 @@ export class AuthService {
     
 
 
-    public static register(value: RegisterPayload){
+    public static register(value: RegisterPayload):Promise<any>
+    {
         let dataUrl: string = `${this.serverUrl}/register`;
 
         return axios.post(dataUrl, value, {withCredentials: true});
@@ -16,7 +17,7 @@ export class AuthService {
     }
 
 
-    public static login(email: string, password: string)
+    public static login(email: string, password: string):Promise<any>
     {
         let dataUrl: string = `${this.serverUrl}/login`;
 
@@ -24,14 +25,14 @@ export class AuthService {
 
     }
 
-    public static checkLogin()
+    public static checkLogin(): Promise<any>
     {
         let dataUrl: string = `${this.serverUrl}/check-token`;
 
         return axios.get(dataUrl, {withCredentials: true, });
     }
 
-    public static logout()
+    public static logout(): Promise<any>
     {
         let dataUrl: string = `${this.serverUrl}/logout`;
 

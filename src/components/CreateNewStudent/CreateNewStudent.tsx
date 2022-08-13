@@ -44,7 +44,7 @@ let CreateNewStudent:React.FC<IProps> = ({onHide}) => {
         
     };
 
-    const validateForm = (value: IStudent) => {
+    const validateForm = (value: IStudent): void => {
 
       if(!value.email || !value.firstName || !value.indexNumber || !value.lastName
         || !value.phone || !value.studentStatus || !value.year)

@@ -20,6 +20,7 @@ interface IState{
 interface IProps{}
 
 let StudentList:React.FC<IProps> = () => {
+   
     const toast = useRef<Toast>(null);
 
 
@@ -48,7 +49,7 @@ let StudentList:React.FC<IProps> = () => {
         'displayBasic': setDisplayBasic,
     }
     
-    const onClick1 = (name: any, position: any) => {
+    const onClick1 = (name: any, position: any): void => {
         dialogFuncMap[`${name}`](true);
         if (position) {
             setPosition(position);
@@ -65,10 +66,10 @@ let StudentList:React.FC<IProps> = () => {
      };
 
     //CREATE NEW STUDENT DIALOG ONHIDE
-    const onHide = async (name: any, value: boolean, student: IStudent | undefined) => {
+    const onHide = async (name: any, value: boolean, student: IStudent | undefined): Promise<void> => {
         dialogFuncMap[`${name}`](false);
         if(student && value === true){
-        await StudentService.createNewStudent(student).then((res) => {
+        await StudentService.createNewStudent(student).then((res): void => {
             if(res.status === 200){
                 if(toast.current){
                 toast.current.show({severity:'success', summary: 'Student kreiran!', detail:'Uspješno ste kreirali studenta.', life: 3000});
@@ -87,7 +88,7 @@ let StudentList:React.FC<IProps> = () => {
     }
 
     // DELETE CONFIRMATION
-    const confirm = (id: string | undefined) => {
+    const confirm = (id: string | undefined): void => {
         confirmDialog({
             message: 'Ovim brišete studenta iz baze podataka!',
             header: 'Potvrda',
@@ -99,9 +100,9 @@ let StudentList:React.FC<IProps> = () => {
         });
     }
 
-    const acceptFunc = async (id: string | undefined) => {
+    const acceptFunc = async (id: string | undefined): Promise<void> => {
        if(id){
-            await StudentService.deleteStudent(id).then((res) => {
+            await StudentService.deleteStudent(id).then((res): void => {
                 if(res.status === 200){
                     if(toast.current){
                         toast.current.show({severity:'warn', summary: 'Student obrisan!', detail:'Uspješno ste obrisali studenta.', life: 3000});

@@ -13,9 +13,9 @@ let Navbar:React.FC<IProps> = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     
 
-    const checkLogin = async () => {
+    const checkLogin = async (): Promise<void> => {
         await AuthService.checkLogin().then((res: any) => {
-            console.log(res)
+            
             if(res.status === 200 && res.data == 'Token valid!'){
               setIsLoggedIn(true);
             }else{
@@ -24,11 +24,11 @@ let Navbar:React.FC<IProps> = () => {
      })
     };
 
-    useEffect(() => {
+    useEffect((): void => {
         checkLogin();
     }, []);
 
-     const logout = async () => {
+     const logout = async (): Promise<void> => {
 
         await AuthService.logout().then((res) => {
             if(res.status === 200){

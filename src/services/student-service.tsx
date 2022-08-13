@@ -16,7 +16,8 @@ export class StudentService {
     }
 
 
-    public static createNewStudent(student: IStudent){
+    public static createNewStudent(student: IStudent): Promise<any>
+    {
         let dataUrl: string = `${this.serverUrl}/create-student`;
 
         return axios.post(dataUrl, student, {withCredentials: true});
@@ -24,14 +25,16 @@ export class StudentService {
 
     }
 
-    public static deleteStudent(id: string){
+    public static deleteStudent(id: string):Promise<any>
+    {
         let dataUrl: string = `${this.serverUrl}/delete-student`;
 
         return axios.post(dataUrl, {id : id}, {withCredentials: true});        
 
     }
 
-    public static updateStudent(student: IStudent){
+    public static updateStudent(student: IStudent): Promise<any>
+    {
         let dataUrl: string = `${this.serverUrl}/update-student`;
 
         return axios.post(dataUrl, student, {withCredentials: true});

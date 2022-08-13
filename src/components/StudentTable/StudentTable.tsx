@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useImperativeHandle, useRef } from "react";
+import React, { useReducer, useEffect, useImperativeHandle, useRef, ReactElement } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { IStudent } from "../../models/IStudent";
@@ -11,9 +11,10 @@ import { Toast, ToastSeverityType } from "primereact/toast";
 
 import "./StudentTable.css";
 
-const init: any = (initialState: any) => initialState;
+const init: any = (initialState: IState) => initialState;
 
 interface IState{
+  results: IStudent[]
     loading: boolean;
     students: IStudent[];
     errorMessage: string;
@@ -28,7 +29,8 @@ interface IProps{
 }
 
 //OJO: action deconstruido automaticamente en type y payload
-const reducer = (state: any, { type, payload }: any) => {
+const reducer = (state: IState, { type, payload }: string | any) => {
+  
   switch (type) {
     case "onPage":
         state.query.page = payload.page;
@@ -44,7 +46,7 @@ const reducer = (state: any, { type, payload }: any) => {
  const StudentTable:React.FC<IProps> = ({onAddStudent, onSearchStudentRef}) => {
   
     const initialState = {
-    results: [],
+    results: [] as IStudent[],
     loading: true,
     first: 0,
     rows: 5,
@@ -59,7 +61,7 @@ const reducer = (state: any, { type, payload }: any) => {
 
 const toast = useRef<Toast>(null);
 
-const showDialog = (type: ToastSeverityType, summary: string, detail: string) => {
+const showDialog = (type: ToastSeverityType, summary: string, detail: string): void => {
   if(toast.current){
     toast.current.show({severity: type, summary: summary, detail: detail, life: 3000});
     }
@@ -69,31 +71,32 @@ const showDialog = (type: ToastSeverityType, summary: string, detail: string) =>
   const [state, dispatch] = useReducer(reducer, initialState, init);
   const { results, loading, rows, first, totalRecords } = state;
 
-  useEffect( () => {
+  useEffect( (): void => {
 
         loadData();
     
   }, [loading, first, rows]);
 
 
-  const loadData = () => {
+  const loadData = (): void => {
+    
     let data: IStudent[] = [];
-        StudentService.getAllStudents(state.query).then((response) => {
+        StudentService.getAllStudents(state.query).then((response): void => {
            if(response.status === 200){
           data = response.data.data;
             state.totalRecords = response.data.totalRecords;
            }else {
               showDialog('error', 'Podaci nisu učitani!', 'Greška veze sa serverom!')
            }
-        }).then(() => {
+        }).then((): void => {
             dispatch({ type: "dataLoaded", payload: data });
-        }).catch((err) => {
-            console.log(err);
+        }).catch((err): void => {
+            showDialog('error', 'Greška!',err);
         });
   }
 
-  const updateStudent = (student: IStudent) => {
-    StudentService.updateStudent(student).then((response) => {
+  const updateStudent = (student: IStudent): void => {
+    StudentService.updateStudent(student).then((response): void => {
         if(response.status === 200){
             showDialog('success', 'Student ažuriran!', 'Uspješno ste ažurirali studenta.')
           loadData();
@@ -107,7 +110,7 @@ const showDialog = (type: ToastSeverityType, summary: string, detail: string) =>
 
   useImperativeHandle(onAddStudent, () => ({
 
-    getAlert() {
+    getAlert(): void {
       loadData();
     }
 
@@ -115,19 +118,20 @@ const showDialog = (type: ToastSeverityType, summary: string, detail: string) =>
 
   useImperativeHandle(onSearchStudentRef, () => ({
 
-    searchString(filter_string: string) {
-      
+    searchString(filter_string: string):void {
       state.query.filter_string = filter_string;
+      
       loadData();
+      
     }
 
   }));
 
-  const textEditor = (options: any) => {
+  const textEditor = (options: any): ReactElement => {
     return <InputText type="text" value={options.value} onChange={(e) => options.editorCallback(e.target.value)} />;
 }
 
-const numberEditor = (options: any) => {
+const numberEditor = (options: any): ReactElement => {
   return <InputNumber type="tel" value={options.value} onChange={(e) => options.editorCallback(e.value)} />;
 }
 
@@ -143,7 +147,7 @@ const statusBodyStyle = (rowData: IStudent): string => {
 
 }
 
-const onRowEditComplete = (e: any) => {
+const onRowEditComplete = (e: any): void => {
   
   if(e.newData){
     updateStudent(e.newData);

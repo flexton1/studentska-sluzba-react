@@ -36,7 +36,7 @@ interface IState{
   const ErrorMessage: errorMessage = {name: '', message: ''};
   
     // React States
-    const [errorMessages, setErrorMessages] = useState(ErrorMessage);
+    
     const [isSubmitted, setIsSubmitted] = useState(false);
   
   
@@ -63,12 +63,12 @@ interface IState{
   
   // const [cookies, setCookie] = useCookies(['access_token']);
   
-  let register = async (event: React.FormEvent<HTMLFormElement>) => {
+  let register = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
       event.preventDefault();
       
   
   
-     await AuthService.register(state.register).then((res) => {
+     await AuthService.register(state.register).then((res): void => {
             if(res.status == 200){
               if(toast.current){
                 toast.current.show({severity:'success', summary: 'Registrovali ste ste!', detail:'Uspješno ste obavili registraciju!', life: 3000});
@@ -150,7 +150,7 @@ interface IState{
       </div>
     );
   
-    useEffect(() => {
+    useEffect( (): void => {
       AuthService.checkLogin().then((res) => {
         if(res.status === 200){
           setIsSubmitted(true);
