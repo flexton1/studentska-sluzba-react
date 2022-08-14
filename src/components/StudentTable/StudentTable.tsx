@@ -57,7 +57,7 @@ const reducer = (state: IState, { type, payload }: string | any) => {
         limit: 5,
         filter_string: '',
         sort_column: 'indexNumber',
-        sort_order: 'asc'
+        sort_order: 1
     },
     sortOrder: 1
   };
@@ -164,7 +164,7 @@ const onSortChange = (event: any) => {
   console.log(event);
   state.query.sort_column = event.sortField;
   state.sortOrder = event.sortOrder;
-  state.query.sort_order = event.sortOrder == 1 ? 'asc' : 'desc';
+  state.query.sort_order = event.sortOrder;
   loadData();
 }
 
@@ -189,6 +189,7 @@ const onSortChange = (event: any) => {
         onRowEditComplete={onRowEditComplete}
         onSort={(e) => onSortChange(e)}
         sortOrder={state.sortOrder}
+        sortField={state.query.sort_column}
         
       >
                     <Column field="firstName" editor={(options) => textEditor(options)} header="Ime" sortable></Column>
