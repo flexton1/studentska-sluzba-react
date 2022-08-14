@@ -129,7 +129,7 @@ let StudentList:React.FC<IProps> = () => {
             <Button className='mt-1 mb-1 pr-3' label="Novi student" icon="pi pi-plus" onClick={() => onClick1('displayBasic', position)} />
             </div>
             <div className="p-2 flex-fill bd-highlight">
-            <InputText placeholder='Search students' onChange={updateInput} className='ml-3' />
+            <InputText placeholder='Pretraga' onChange={updateInput} className='ml-3' />
             </div>
             </div>
 

@@ -1,5 +1,5 @@
-import React, { useReducer, useEffect, useImperativeHandle, useRef, ReactElement } from "react";
-import { DataTable } from "primereact/datatable";
+import React, { useReducer, useEffect, useImperativeHandle, useRef, ReactElement, useState } from "react";
+import { DataTable, DataTableSortOrderType } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { IStudent } from "../../models/IStudent";
 import { StudentService } from "../../services/student-service";
@@ -22,6 +22,7 @@ interface IState{
     rows: number;
     totalRecords: number;
     query: Query;
+    sortOrder: DataTableSortOrderType;
 }
 interface IProps{
     onAddStudent: any;
@@ -54,8 +55,11 @@ const reducer = (state: IState, { type, payload }: string | any) => {
     query: {
         page: 0,
         limit: 5,
-        filter_string: ''
-    }
+        filter_string: '',
+        sort_column: 'indexNumber',
+        sort_order: 'asc'
+    },
+    sortOrder: 1
   };
 
 
@@ -156,13 +160,20 @@ const onRowEditComplete = (e: any): void => {
 
 }
 
+const onSortChange = (event: any) => {
+  console.log(event);
+  state.query.sort_column = event.sortField;
+  state.sortOrder = event.sortOrder;
+  state.query.sort_order = event.sortOrder == 1 ? 'asc' : 'desc';
+  loadData();
+}
 
   
 
   return (
     <React.Fragment>
       <Toast ref={toast} />
-    <div>
+    <div className='card'>
       <DataTable
         value={results}
         paginator
@@ -176,15 +187,17 @@ const onRowEditComplete = (e: any): void => {
         dataKey="_id"
         editMode="row"
         onRowEditComplete={onRowEditComplete}
+        onSort={(e) => onSortChange(e)}
+        sortOrder={state.sortOrder}
         
       >
-                    <Column field="firstName" editor={(options) => textEditor(options)} header="Ime"></Column>
-                    <Column field="lastName" editor={(options) => textEditor(options)} header="Prezime"></Column>
-                    <Column field="email" editor={(options) => textEditor(options)} header="Email"></Column>
-                    <Column field="indexNumber" header="Broj indeksa"></Column>
-                    <Column field="studentStatus" body={statusBodyStyle} header="Status studenta"></Column>
-                    <Column field="phone" editor={(options) => numberEditor(options)}  header="Telefon"></Column>
-                    <Column rowEditor headerStyle={{ width: '10%', minWidth: '8rem' }} bodyStyle={{ textAlign: 'center' }}></Column>
+                    <Column field="firstName" editor={(options) => textEditor(options)} header="Ime" sortable></Column>
+                    <Column field="lastName" editor={(options) => textEditor(options)} header="Prezime" sortable></Column>
+                    <Column field="email" editor={(options) => textEditor(options)} header="Email" sortable></Column>
+                    <Column field="indexNumber" header="Broj indeksa" sortable></Column>
+                    <Column field="studentStatus" body={statusBodyStyle} header="Status studenta" sortable></Column>
+                    <Column field="phone" editor={(options) => numberEditor(options)}  header="Telefon" sortable></Column>
+                    <Column rowEditor headerStyle={{ width: '10%', minWidth: '8rem' }} bodyStyle={{ textAlign: 'center' }} sortableDisabled></Column>
       </DataTable>
     </div>
     </React.Fragment>
