@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Toast } from "primereact/toast";
+import { Toast, ToastSeverityType } from "primereact/toast";
 import { errorMessage } from "../../models/errorMessage";
 import { AuthService } from "../../services/auth-service";
 import { InputText } from 'primereact/inputtext';
@@ -59,6 +59,12 @@ interface IState{
   }
   });
       
+  };
+  
+  const showDialog = (type: ToastSeverityType, summary: string, detail: string): void => {
+    if(toast.current){
+      toast.current.show({severity: type, summary: summary, detail: detail, life: 3000});
+      }
   }
   
   // const [cookies, setCookie] = useCookies(['access_token']);
@@ -158,7 +164,9 @@ interface IState{
         }
   
   
-      })
+      }).catch((err): void => {
+        showDialog('error', 'Greška!',err);
+    });
     }, []);
   
   

@@ -6,7 +6,7 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 
 import "./loginStyles.css";
-import { Toast } from "primereact/toast";
+import { Toast, ToastSeverityType } from "primereact/toast";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
@@ -43,7 +43,13 @@ const ErrorMessage: errorMessage = {name: '', message: ''};
         email: '',
         password: ''
     }
-})
+});
+
+const showDialog = (type: ToastSeverityType, summary: string, detail: string): void => {
+  if(toast.current){
+    toast.current.show({severity: type, summary: summary, detail: detail, life: 3000});
+    }
+}
 
 let updateInput = (event:React.ChangeEvent<HTMLInputElement>): void => {
     
@@ -61,9 +67,7 @@ let login = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
 
     if(!state.login.email || !state.login.password){
-      if(toast.current){
-        toast.current.show({severity:'error', summary: 'Unesite podatke!', detail:'Niste unijeli email i lozinku.', life: 3000});
-      }
+      showDialog('error', 'Unesite podatke', 'Niste unijeli email ili lozinku!');
       return;
     }
     
@@ -71,9 +75,7 @@ let login = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
 
    await AuthService.login(state.login.email, state.login.password).then((res): void => {
           if(res.status == 200){
-            if(toast.current){
-              toast.current.show({severity:'success', summary: 'Prijavljeni ste!', detail:'Uspješno ste se prijavili!', life: 3000});
-            }
+            showDialog('success', 'Prijavljeni ste!', 'Uspješno ste se prijavili!');
             setIsSubmitted(true);
             // let expires = new Date()
             // expires.setTime(expires.getTime() + (res.data.expires_in * 1000))
@@ -83,11 +85,11 @@ let login = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
             
 
           }else{
-            if(toast.current){
-              toast.current.show({severity:'error', summary: 'Prijava neuspješna!', detail:'Pokušajte ponovo!', life: 3000});
-            }
+            showDialog('error', 'Prijava neuspješna!', 'Pokušajte ponovo!');
           }
-        });
+        }).catch((err): void => {
+          showDialog('error', 'Greška!',err);
+      });
 
 
 }
@@ -140,7 +142,9 @@ let login = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
       }
 
 
-    })
+    }).catch((err): void => {
+      showDialog('error', 'Greška!',err);
+  });
   }, []);
 
 

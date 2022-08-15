@@ -107,7 +107,9 @@ const showDialog = (type: ToastSeverityType, summary: string, detail: string): v
         }else{
             showDialog('error', 'Student nije ažuriran!', 'Niste uspijeli ažurirati studenta.')
         }
-    })
+    }).catch((err): void => {
+      showDialog('error', 'Greška!',err);
+  });
 
   }
 
@@ -168,6 +170,7 @@ const onSortChange = (event: any) => {
   loadData();
 }
 
+
   
 
   return (
@@ -190,6 +193,7 @@ const onSortChange = (event: any) => {
         onSort={(e) => onSortChange(e)}
         sortOrder={state.sortOrder}
         sortField={state.query.sort_column}
+        
         
       >
                     <Column field="firstName" editor={(options) => textEditor(options)} header="Ime" sortable></Column>

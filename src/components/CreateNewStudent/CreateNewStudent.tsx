@@ -7,7 +7,7 @@ import { Dropdown } from 'primereact/dropdown';
 
 
 import "./CreateNewStudent.css";
-import { Toast } from 'primereact/toast';
+import { Toast, ToastSeverityType } from 'primereact/toast';
 import { IStudent } from '../../models/IStudent';
 import { StudentStatusEnum } from '../Enums/StudentStatusEnum';
 
@@ -32,7 +32,13 @@ let CreateNewStudent:React.FC<IProps> = ({onHide}) => {
             studentStatus: 0
 
         }
-    })
+    });
+
+    const showDialog = (type: ToastSeverityType, summary: string, detail: string): void => {
+      if(toast.current){
+        toast.current.show({severity: type, summary: summary, detail: detail, life: 3000});
+        }
+    }
     
     let updateInput = (event: any): void => {
         
@@ -49,9 +55,7 @@ let CreateNewStudent:React.FC<IProps> = ({onHide}) => {
       if(!value.email || !value.firstName || !value.indexNumber || !value.lastName
         || !value.phone || !value.studentStatus || !value.year)
         {
-          if(toast.current){
-            toast.current.show({severity:'error', summary: 'Sva polja su obavezna', detail:'Unesite vrijednost u sva polja!', life: 3000});
-            }
+            showDialog('error', 'Sva polja su obavezna', 'Unesite vrijednost u sva polja');
             return;
         }else{
           onHide('displayBasic', true, state.createNewStudent);
