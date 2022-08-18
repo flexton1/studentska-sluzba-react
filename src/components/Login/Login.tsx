@@ -142,9 +142,7 @@ let login = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
       }
 
 
-    }).catch((err): void => {
-      showDialog('error', 'Greška!',err);
-  });
+    })
   }, []);
 
 

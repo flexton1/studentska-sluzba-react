@@ -17,7 +17,12 @@ function App() {
     <React.Fragment>
       <Navbar />
       <Routes>
-      <Route path="*" element={<NoMatch />} />
+      <Route path="*" element={
+      <React.Suspense>
+      <NoMatch />
+      </React.Suspense>
+      } />
+       
         <Route path={'/'} element={
        <React.Suspense fallback={<>...</>}>
        <StudentList />

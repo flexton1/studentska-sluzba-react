@@ -94,9 +94,7 @@ const showDialog = (type: ToastSeverityType, summary: string, detail: string): v
            }
         }).then((): void => {
             dispatch({ type: "dataLoaded", payload: data });
-        }).catch((err): void => {
-            showDialog('error', 'Greška!',err);
-        });
+        })
   }
 
   const updateStudent = (student: IStudent): void => {
@@ -126,6 +124,7 @@ const showDialog = (type: ToastSeverityType, summary: string, detail: string): v
 
     searchString(filter_string: string):void {
       state.query.filter_string = filter_string;
+      state.query.page = 0;
       
       loadData();
       
@@ -193,7 +192,6 @@ const onSortChange = (event: any) => {
         onSort={(e) => onSortChange(e)}
         sortOrder={state.sortOrder}
         sortField={state.query.sort_column}
-        
         
       >
                     <Column field="firstName" editor={(options) => textEditor(options)} header="Ime" sortable></Column>
