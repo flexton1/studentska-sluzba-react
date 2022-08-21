@@ -6,7 +6,7 @@
 table {width: 100%;}
 td
 {
-    max-width: 100px;
+    max-width: 100%;
  overflow: hidden;
  text-overflow: ellipsis;
  white-space: nowrap;
