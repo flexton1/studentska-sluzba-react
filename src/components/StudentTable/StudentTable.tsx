@@ -10,6 +10,7 @@ import { StudentStatusEnum } from "../Enums/StudentStatusEnum";
 import { Toast, ToastSeverityType } from "primereact/toast";
 
 import "./StudentTable.css";
+import { Dropdown } from "primereact/dropdown";
 
 const init: any = (initialState: IState) => initialState;
 
@@ -137,8 +138,20 @@ const showDialog = (type: ToastSeverityType, summary: string, detail: string): v
 }
 
 const numberEditor = (options: any): ReactElement => {
-  return <InputNumber type="tel" value={options.value} onChange={(e) => options.editorCallback(e.value)} />;
+  return <InputNumber type="tel"
+  allowEmpty={false}
+  useGrouping={false} value={options.value} onChange={(e) => options.editorCallback(e.value)} />;
 }
+
+const selectEditor = (options: any): ReactElement => {
+  const citySelectItems = [
+    {label: 'Redovan', value: StudentStatusEnum.Redovan},
+    {label: 'Vanredan', value: StudentStatusEnum.Vanredan},
+];
+
+  return <Dropdown value={options.value} options={citySelectItems} onChange={(e) => options.editorCallback(e.value)} placeholder="Nepoznato"/>;
+}
+
 
 const statusBodyStyle = (rowData: IStudent): string => {
   
@@ -192,14 +205,14 @@ const onSortChange = (event: any) => {
         onSort={(e) => onSortChange(e)}
         sortOrder={state.sortOrder}
         sortField={state.query.sort_column}
-        className='mw-100'
+      
       >
                     <Column field="firstName" editor={(options) => textEditor(options)} header="Ime" sortable></Column>
                     <Column field="lastName" editor={(options) => textEditor(options)} header="Prezime" sortable></Column>
                     <Column field="email" editor={(options) => textEditor(options)} header="Email" sortable></Column>
                     <Column field="year" editor={(options) => textEditor(options)} header="Godina" sortable></Column>
                     <Column field="indexNumber" editor={(options) => textEditor(options)} header="Broj indeksa" sortable></Column>
-                    <Column field="studentStatus" editor={(options) => textEditor(options)} body={statusBodyStyle} header="Status studenta" sortable></Column>
+                    <Column field="studentStatus" editor={(options) => selectEditor(options)} body={statusBodyStyle} header="Status studenta" sortable></Column>
                     <Column field="phone" editor={(options) => numberEditor(options)}  header="Telefon" sortable></Column>
                     <Column rowEditor headerStyle={{ width: '10%', minWidth: '8rem' }} bodyStyle={{ textAlign: 'center' }} sortableDisabled></Column>
       </DataTable>
