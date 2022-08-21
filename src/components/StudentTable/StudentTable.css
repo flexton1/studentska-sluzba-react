@@ -2,3 +2,16 @@
     padding-top: 0;
     padding-bottom: 0;
 }
+
+table {width: 100%;}
+td
+{
+    max-width: 100px;
+ overflow: hidden;
+ text-overflow: ellipsis;
+ white-space: nowrap;
+}
+
+input {
+    max-width: 100%;
+}
