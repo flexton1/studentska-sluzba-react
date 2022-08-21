@@ -11,6 +11,7 @@ import { Toast, ToastSeverityType } from "primereact/toast";
 
 import "./StudentTable.css";
 import { Dropdown } from "primereact/dropdown";
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 
 const init: any = (initialState: IState) => initialState;
 
@@ -182,6 +183,56 @@ const onSortChange = (event: any) => {
   loadData();
 }
 
+const rowEditorTemplate = (rowData: any, props: any) => {
+  const rowEditor = props.rowEditor;
+  if (rowEditor.editing) {
+      return rowEditor.element; // default element
+  }
+  else {
+     // custom init element
+  
+      return (
+        <div>
+          <button type="button" onClick={rowEditor.onInitClick} className={rowEditor.initClassName}>
+              <span className='p-row-editor-init-icon pi pi-fw pi-pencil p-clickable'></span>
+          </button>
+          <button type="button" onClick={() => confirm(rowData._id)} className={rowEditor.initClassName}>
+              <span className='p-row-editor-init-icon pi pi-fw pi-trash p-clickable'></span>
+          </button>
+         
+          </div>
+      )
+  }
+}
+
+
+ // DELETE CONFIRMATION
+ const confirm = (id: string | undefined): any => {
+  confirmDialog({
+      message: 'Ovim brišete studenta iz baze podataka!',
+      header: 'Potvrda',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Nastavi',
+      rejectLabel: 'Odustani',
+      accept: () => acceptFunc(id),
+      reject: () => {}
+  });
+}
+
+const acceptFunc = async (id: string | undefined): Promise<void> => {
+ if(id){
+      await StudentService.deleteStudent(id).then((res): void => {
+          if(res.status === 200){
+              if(toast.current){
+                  toast.current.show({severity:'warn', summary: 'Student obrisan!', detail:'Uspješno ste obrisali studenta.', life: 3000});
+                  }
+                  
+                  loadData();
+          }
+      });
+ }
+}
+
 
   
 
@@ -214,9 +265,11 @@ const onSortChange = (event: any) => {
                     <Column field="indexNumber" editor={(options) => textEditor(options)} header="Broj indeksa" sortable></Column>
                     <Column field="studentStatus" editor={(options) => selectEditor(options)} body={statusBodyStyle} header="Status studenta" sortable></Column>
                     <Column field="phone" editor={(options) => numberEditor(options)}  header="Telefon" sortable></Column>
-                    <Column rowEditor headerStyle={{ width: '10%', minWidth: '8rem' }} bodyStyle={{ textAlign: 'center' }} sortableDisabled></Column>
+                    <Column rowEditor headerStyle={{ width: '10%', minWidth: '8rem' }} body={rowEditorTemplate} bodyStyle={{ textAlign: 'center' }} sortableDisabled></Column>
       </DataTable>
     </div>
+
+    <ConfirmDialog breakpoints={{'960px': '75vw', '640px': '100vw'}} style={{width: '50vw'}} />
     </React.Fragment>
   );
 };

@@ -87,32 +87,7 @@ let StudentList:React.FC<IProps> = () => {
 
     }
 
-    // DELETE CONFIRMATION
-    const confirm = (id: string | undefined): void => {
-        confirmDialog({
-            message: 'Ovim brišete studenta iz baze podataka!',
-            header: 'Potvrda',
-            icon: 'pi pi-exclamation-triangle',
-            acceptLabel: 'Nastavi',
-            rejectLabel: 'Odustani',
-            accept: () => acceptFunc(id),
-            reject: () => {}
-        });
-    }
-
-    const acceptFunc = async (id: string | undefined): Promise<void> => {
-       if(id){
-            await StudentService.deleteStudent(id).then((res): void => {
-                if(res.status === 200){
-                    if(toast.current){
-                        toast.current.show({severity:'warn', summary: 'Student obrisan!', detail:'Uspješno ste obrisali studenta.', life: 3000});
-                        }
-                        
-                        onAddStudentRef.current?.getAlert();
-                }
-            });
-       }
-    }
+   
 
    
 

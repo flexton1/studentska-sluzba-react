@@ -15,3 +15,12 @@ td
 input {
     max-width: 100%;
 }
+
+.pi-trash{
+    transition: 0.3s;
+}
+
+button:hover .pi-trash{
+    color: red;
+    transition: 0.3s;
+}
