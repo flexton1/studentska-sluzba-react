@@ -17,31 +17,31 @@ function App() {
     <React.Fragment>
       <Navbar />
       <Routes>
-      <Route path="*" element={
-      <React.Suspense>
-      <NoMatch />
-      </React.Suspense>
-      } />
-       
+        <Route path="*" element={
+          <React.Suspense>
+            <NoMatch />
+          </React.Suspense>
+        } />
+
         <Route path={'/'} element={
-       <React.Suspense fallback={<>...</>}>
-       <StudentList />
-       </React.Suspense>
+          <React.Suspense fallback={<>...</>}>
+            <StudentList />
+          </React.Suspense>
         } />
-        
-        
+
+
         <Route path={'/login'} element={
-        <React.Suspense fallback={<>...</>}>
-        <Login />
-        </React.Suspense>
+          <React.Suspense fallback={<>...</>}>
+            <Login />
+          </React.Suspense>
         } />
-       
+
         <Route path={'/registracija'} element={
-         <React.Suspense fallback={<>...</>}>
-        <Registration />
-        </React.Suspense>
+          <React.Suspense fallback={<>...</>}>
+            <Registration />
+          </React.Suspense>
         } />
-     
+
       </Routes>
 
     </React.Fragment>

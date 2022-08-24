@@ -1,17 +1,17 @@
 import React from "react";
 
 
-interface IState{}
-interface IProps{}
+interface IState { }
+interface IProps { }
 
-let EditStudentModal:React.FC<IProps> = () => {
+let EditStudentModal: React.FC<IProps> = () => {
 
-    
 
-    return(
+
+    return (
         <React.Fragment>
 
-       
+
 
 
 

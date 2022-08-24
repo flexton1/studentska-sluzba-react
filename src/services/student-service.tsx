@@ -7,37 +7,33 @@ export class StudentService {
 
 
 
-    public static getAllStudents(query: Query): Promise<any>
-    {
+    public static getAllStudents(query: Query): Promise<any> {
         let dataUrl: string = `${this.serverUrl}/get-all-students`;
 
-        return axios.post(dataUrl, {query: query} ,{withCredentials: true, });
+        return axios.post(dataUrl, { query: query }, { withCredentials: true, });
 
     }
 
 
-    public static createNewStudent(student: IStudent): Promise<any>
-    {
+    public static createNewStudent(student: IStudent): Promise<any> {
         let dataUrl: string = `${this.serverUrl}/create-student`;
 
-        return axios.post(dataUrl, student, {withCredentials: true});
+        return axios.post(dataUrl, student, { withCredentials: true });
 
 
     }
 
-    public static deleteStudent(id: string):Promise<any>
-    {
+    public static deleteStudent(id: string): Promise<any> {
         let dataUrl: string = `${this.serverUrl}/delete-student`;
 
-        return axios.post(dataUrl, {id : id}, {withCredentials: true});        
+        return axios.post(dataUrl, { id: id }, { withCredentials: true });
 
     }
 
-    public static updateStudent(student: IStudent): Promise<any>
-    {
+    public static updateStudent(student: IStudent): Promise<any> {
         let dataUrl: string = `${this.serverUrl}/update-student`;
 
-        return axios.post(dataUrl, student, {withCredentials: true});
+        return axios.post(dataUrl, student, { withCredentials: true });
     }
 
 

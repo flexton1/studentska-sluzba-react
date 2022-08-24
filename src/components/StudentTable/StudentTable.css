@@ -3,24 +3,26 @@
     padding-bottom: 0;
 }
 
-table {width: 100%;}
-td
-{
+table {
+    width: 100%;
+}
+
+td {
     max-width: 100%;
- overflow: hidden;
- text-overflow: ellipsis;
- white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 input {
     max-width: 100%;
 }
 
-.pi-trash{
+.pi-trash {
     transition: 0.3s;
 }
 
-button:hover .pi-trash{
+button:hover .pi-trash {
     color: red;
     transition: 0.3s;
 }

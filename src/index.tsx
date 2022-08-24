@@ -14,9 +14,9 @@ import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
 import { BrowserRouter } from 'react-router-dom';
 
 //PRIME NG
-import "primereact/resources/themes/lara-light-indigo/theme.css"; 
-import "primereact/resources/primereact.min.css";                  
-import "primeicons/primeicons.css";  
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 
 
 
@@ -27,11 +27,11 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
 
-    <App />
+      <App />
 
 
     </BrowserRouter>
-    
+
   </React.StrictMode>
 );
 
