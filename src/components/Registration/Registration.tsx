@@ -165,9 +165,7 @@ let Registration: React.FC<IProps> = () => {
       }
 
 
-    }).catch((err): void => {
-      showDialog('error', 'Greška!', err);
-    });
+    })
   }, []);
 
 
