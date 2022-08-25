@@ -15,26 +15,35 @@ let Navbar: React.FC<IProps> = () => {
 
     const checkLogin = async (): Promise<void> => {
         await AuthService.checkLogin().then((res: any) => {
-
             if (res.status === 200 && res.data == 'Token valid!') {
                 setIsLoggedIn(true);
             } else {
                 setIsLoggedIn(false);
             }
+        },(err) => {
+               setIsLoggedIn(false);
+            
         })
     };
 
     useEffect((): void => {
-        checkLogin();
+        setInterval(() => {
+            checkLogin();
+          }, 5000);
+
     }, []);
 
     const logout = async (): Promise<void> => {
 
         await AuthService.logout().then((res) => {
             if (res.status === 200) {
-                checkLogin();
+                
                 setTimeout(() => navigate(`/login`), 100);
             }
+
+            checkLogin();
+        }, (err) => {
+            checkLogin();
         })
 
 

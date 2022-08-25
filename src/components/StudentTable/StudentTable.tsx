@@ -256,6 +256,7 @@ const StudentTable: React.FC<IProps> = ({ onAddStudent, onSearchStudentRef }) =>
           onSort={(e) => onSortChange(e)}
           sortOrder={state.sortOrder}
           sortField={state.query.sort_column}
+          emptyMessage="Nije pronađen nijedan student!"
 
         >
           <Column field="firstName" editor={(options) => textEditor(options)} header="Ime" sortable></Column>

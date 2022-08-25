@@ -164,7 +164,6 @@ let Registration: React.FC<IProps> = () => {
         setTimeout(() => navigate(`/`), 1000);
       }
 
-
     })
   }, []);
 
