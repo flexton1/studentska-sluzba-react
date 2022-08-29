@@ -6,7 +6,7 @@ import { InputNumber } from 'primereact/inputnumber';
 import { Dropdown } from 'primereact/dropdown';
 
 
-import "./CreateNewStudent.css";
+import "./CreateNewStudent.scss";
 import { Toast, ToastSeverityType } from 'primereact/toast';
 import { IStudent } from '../../models/IStudent';
 import { StudentStatusEnum } from '../Enums/StudentStatusEnum';

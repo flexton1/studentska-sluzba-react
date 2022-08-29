@@ -26,11 +26,14 @@ let Navbar: React.FC<IProps> = () => {
         })
     };
 
-    useEffect((): void => {
+    useEffect((): any => {
         setInterval(() => {
             checkLogin();
           }, 5000);
 
+          return () => {
+            
+          }
     }, []);
 
     const logout = async (): Promise<void> => {

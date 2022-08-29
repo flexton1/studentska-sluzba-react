@@ -8,7 +8,7 @@ import { Button } from 'primereact/button';
 
 
 
-import "../Login/loginStyles.css"
+import "../Login/loginStyles.scss"
 import { InputNumber } from "primereact/inputnumber";
 import { RegisterPayload } from "../../models/RegisterPayload";
 

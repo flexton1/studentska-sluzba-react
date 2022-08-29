@@ -9,7 +9,7 @@ import { InputNumber } from "primereact/inputnumber";
 import { StudentStatusEnum } from "../Enums/StudentStatusEnum";
 import { Toast, ToastSeverityType } from "primereact/toast";
 
-import "./StudentTable.css";
+import "./StudentTable.scss";
 import { Dropdown } from "primereact/dropdown";
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 

@@ -5,7 +5,7 @@ import { AuthService } from "../../services/auth-service";
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 
-import "./loginStyles.css";
+import "./loginStyles.scss";
 import { Toast, ToastSeverityType } from "primereact/toast";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
