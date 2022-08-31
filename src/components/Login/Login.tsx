@@ -8,7 +8,6 @@ import { Button } from 'primereact/button';
 import "./loginStyles.scss";
 import { Toast, ToastSeverityType } from "primereact/toast";
 import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
 
 interface IState {
   login: LoginPayload

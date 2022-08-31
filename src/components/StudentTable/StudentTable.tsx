@@ -65,6 +65,7 @@ const StudentTable: React.FC<IProps> = ({ onAddStudent, onSearchStudentRef }) =>
   };
 
 
+  //TOAST HELPER METHODS
   const toast = useRef<Toast>(null);
 
   const showDialog = (type: ToastSeverityType, summary: string, detail: string): void => {
@@ -113,7 +114,7 @@ const StudentTable: React.FC<IProps> = ({ onAddStudent, onSearchStudentRef }) =>
 
   }
 
-
+// PROPS METHOD TRIGGER RESULTS
   useImperativeHandle(onAddStudent, () => ({
 
     getAlert(): void {
@@ -133,6 +134,8 @@ const StudentTable: React.FC<IProps> = ({ onAddStudent, onSearchStudentRef }) =>
     }
 
   }));
+
+  //DATA TABLE EDITING MARKUPS
 
   const textEditor = (options: any): ReactElement => {
     return <InputText type="text" value={options.value} onChange={(e) => options.editorCallback(e.target.value)} />;
@@ -175,6 +178,7 @@ const StudentTable: React.FC<IProps> = ({ onAddStudent, onSearchStudentRef }) =>
 
   }
 
+  // DATA TABLE SORTING
   const onSortChange = (event: any) => {
     console.log(event);
     state.query.sort_column = event.sortField;

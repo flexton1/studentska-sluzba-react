@@ -1,14 +1,11 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useMemo, useRef, useState } from 'react';
 import { IStudent } from '../models/IStudent';
 import { StudentService } from '../services/student-service';
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
 import CreateNewStudent from './CreateNewStudent/CreateNewStudent';
-import { confirmDialog } from 'primereact/confirmdialog';
 import { Toast } from 'primereact/toast';
 import StudentTable from './StudentTable/StudentTable';
-import { Query } from '../models/Query';
 import { InputText } from 'primereact/inputtext';
 import debounce from 'lodash.debounce';
 
