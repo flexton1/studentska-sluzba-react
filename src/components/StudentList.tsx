@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IStudent } from '../models/IStudent';
 import { StudentService } from '../services/student-service';
@@ -10,6 +10,7 @@ import { Toast } from 'primereact/toast';
 import StudentTable from './StudentTable/StudentTable';
 import { Query } from '../models/Query';
 import { InputText } from 'primereact/inputtext';
+import debounce from 'lodash.debounce';
 
 interface IState {
     loading: boolean;
@@ -86,7 +87,10 @@ let StudentList: React.FC<IProps> = () => {
         };
 
     }
-
+    
+    const debouncedChangeHandler = useMemo(
+        () => debounce(updateInput, 200)
+      , []);
 
 
 
@@ -104,7 +108,7 @@ let StudentList: React.FC<IProps> = () => {
                                 <Button className='mt-1 mb-1 pr-3' label="Novi student" icon="pi pi-plus" onClick={() => onClick1('displayBasic', position)} />
                             </div>
                             <div className="p-2 flex-fill bd-highlight">
-                                <InputText placeholder='Pretraga' onChange={updateInput} className='ml-3' />
+                                <InputText placeholder='Pretraga' onChange={debouncedChangeHandler} className='ml-3' />
                             </div>
                         </div>
 

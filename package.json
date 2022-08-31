@@ -16,6 +16,7 @@
     "axios": "^0.27.2",
     "bootstrap": "^5.2.0",
     "jquery": "^3.6.0",
+    "lodash.debounce": "^4.0.8",
     "primeicons": "^5.0.0",
     "primereact": "^8.3.0",
     "react": "^18.2.0",
@@ -52,6 +53,7 @@
     ]
   },
   "devDependencies": {
+    "@types/lodash.debounce": "^4.0.7",
     "css-loader": "^6.7.1",
     "style-loader": "^3.3.1"
   }
