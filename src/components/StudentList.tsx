@@ -58,7 +58,16 @@ let StudentList: React.FC<IProps> = () => {
     };
 
     const onAddStudentRef = useRef<any>();
+   
+   
+   
+   //STUDENT SEARCH
     const onSearchStudentRef = useRef<any>();
+
+    const debouncedChangeHandler = useMemo(
+        () => debounce(updateInput, 200)
+      , []);
+
 
     let updateInput = (event: any): void => {
 
@@ -88,10 +97,7 @@ let StudentList: React.FC<IProps> = () => {
 
     }
     
-    const debouncedChangeHandler = useMemo(
-        () => debounce(updateInput, 200)
-      , []);
-
+    
 
 
 
