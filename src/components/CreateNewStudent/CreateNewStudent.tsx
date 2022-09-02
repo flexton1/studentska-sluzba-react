@@ -116,6 +116,7 @@ let CreateNewStudent: React.FC<IProps> = ({ onHide }) => {
           <label>Godina</label>
           <InputNumber type="tel" min={0} name="year" required
             value={state.createNewStudent.year}
+            useGrouping={false}
             onValueChange={updateInput}
           />
 
@@ -124,6 +125,7 @@ let CreateNewStudent: React.FC<IProps> = ({ onHide }) => {
           <label>Broj telefona</label>
           <InputNumber type="tel" min={0} name="phone" required
             value={state.createNewStudent.phone}
+            useGrouping={false}
             onValueChange={updateInput}
 
           />
