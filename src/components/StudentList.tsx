@@ -73,11 +73,6 @@ let StudentList: React.FC<IProps> = () => {
 
 
 
-
-    const debouncedChangeHandler = useMemo(
-        () => debounce(updateInput, 200)
-      , []);
-
     //CREATE NEW STUDENT DIALOG ONHIDE
     const onHide = async (name: any, value: boolean, student: IStudent | undefined): Promise<void> => {
         dialogFuncMap[`${name}`](false);
