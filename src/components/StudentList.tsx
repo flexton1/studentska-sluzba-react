@@ -61,16 +61,18 @@ let StudentList: React.FC<IProps> = () => {
    //STUDENT SEARCH
     const onSearchStudentRef = useRef<any>();
 
-    const debouncedChangeHandler = useMemo(
-        () => debounce(updateInput, 200)
-      , []);
-
-
     let updateInput = (event: any): void => {
 
         onSearchStudentRef.current.searchString(event.target.value);
 
     };
+
+    const debouncedChangeHandler = useMemo(
+        () => debounce(updateInput, 200)
+      , []);
+
+
+
 
     //CREATE NEW STUDENT DIALOG ONHIDE
     const onHide = async (name: any, value: boolean, student: IStudent | undefined): Promise<void> => {
